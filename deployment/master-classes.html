@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/css/custom.css" >   
+    <title>Регистрация</title>
+</head>
+<body> 
+    
+
+    <div class="container">
+      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 mb-2 mb-md-0">
+          <a href="/" class="navbar-left"><img width="120px" src="../frame.png"></a>
+        </div>
+  
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="/lectures.html" class="nav-link px-2 hvt">Лекции</a></li>
+          <li><a href="/master-classes" class="nav-link px-2 hvt">Мастер классы</a></li>
+          <li><a href="/shop" class="nav-link px-2 hvt">Магазин</a></li>
+        </ul>
+  
+        <div class="col-md-4 text-end">
+          <a href="/pages/login.html" class="btn btn-outline-primary my-mine2"><div class="hvt">Авторизация</div></a>
+          <a href="/pages/reg.html" class="btn btn-outline-primary"><div class="hvt">Регистрация</div></a>
+        </div>
+      </header>
+    </div>
+
+    <div class="container my-5" id="mycontainer">
+        <h1 class="hvt text-danger ">Доступные мастер-классы</h1>
+        <br>
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 g-3">
+          <div class="col">
+            <div class="card shadow-sm align-items-stretch h-100 my_card">
+              <div class="card-body ">
+                <div class="table-responsive ">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Название:</h5></td>
+                          <td><p class="ttf fs-5">Лекция номер 1</p></td>
+                        </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Спикер:</h5></td>
+                          <td><p class="ttf fs-5">Иванов Иван </p></td>
+                        </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Время:</h5></td>
+                          <td><p class="ttf fs-5">12:00</p></td>
+                        </tr>
+                        <tr>
+                            <td> <h5 class="hvt text-danger">Свободных мест:</h5></td>
+                            <td><p class="ttf fs-5">5</p></td>
+                          </tr>
+                    </table>
+                <p class="card-text ttf fs-4 text-danger">Описание вашей лекциии </p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <button onclick="attend(1)" type="button" class="btn btn-danger" style="color: white;">Записаться</a>
+                </div>
+
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card shadow-sm align-items-stretch h-100 my_card">
+              <div class="card-body ">
+                <div class="table-responsive ">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Название:</h5></td>
+                          <td><p class="ttf fs-5">Лекция номер 2 </p></td>
+                        </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Спикер:</h5></td>
+                          <td><p class="ttf fs-5">9Ф1</p></td>
+                        </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Время:</h5></td>
+                          <td><p class="ttf fs-5">Иванов Иван</p></td>
+                        </tr>
+                        <tr>
+                            <td> <h5 class="hvt text-danger">Свободных мест:</h5></td>
+                            <td><p class="ttf fs-5">5</p></td>
+                          </tr>
+                    </table>
+                <p class="card-text ttf fs-4 text-danger">Описание вашей лекциии </p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <button onclick="attend(1)" type="button" class="btn btn-danger" style="color: white;">Записаться</a>
+                </div>
+
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card shadow-sm align-items-stretch h-100">
+              <div class="card-body ">
+                <div class="table-responsive ">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Название:</h5></td>
+                          <td><p class="ttf fs-5">Лекция номер 1</p></td>
+                        </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Спикер:</h5></td>
+                          <td><p class="ttf fs-5">9Ф1</p></td>
+                        </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Время:</h5></td>
+                          <td><p class="ttf fs-5">Иванов Иван</p></td>
+                        </tr>
+                        <tr>
+                            <td> <h5 class="hvt text-danger">Свободных мест:</h5></td>
+                            <td><p class="ttf fs-5">5</p></td>
+                          </tr>
+                    </table>
+                <p class="card-text ttf fs-4 text-danger">Описание вашей лекциии </p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <button onclick="attend(1)" type="button" class="btn btn-danger" style="color: white;">Записаться</a>
+                </div>
+
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container d-flex justify-content-center h-100 d-none" id="myasker">
+        <div class="card shadow">
+          <div class="card-body">
+           
+            <div class="d-flex justify-content-center align-items-center mb-3">
+             
+              <h3 class="card-title hvt text-danger">Запись на лекцию</h5>
+            </div>
+            <p class="card-text fs-4 ttf">Вы уверены, что хотите записаться на лекцию?</p>
+            <div class="d-grid gap-2 col-6 mx-auto">
+            <button onclick="agree_attend()" type="button" class="btn btn-outline-success">Да</button>
+            <button onclick="decline_attend()" type="button" class="btn btn-outline-danger">Нет</button>
+        </div>
+        </div>
+      </div>
+      </div>
+</body>
+
+
+<script>
+    var container = document.getElementById("mycontainer");
+    var asker = document.getElementById("myasker");
+    var lecture_id = -1;
+    function attend(chosen_lecture_id){
+        container.classList.add("d-none");
+        asker.classList.remove("d-none");
+        lecture_id = chosen_lecture_id;
+    }
+
+    function agree_attend(){
+        if (lecture_id > 0) {
+        document.location.href = "/" + lecture_id;
+        }
+    }
+    function decline_attend(){
+        asker.classList.add("d-none");
+        container.classList.remove("d-none");
+        lecture_id = -1;
+    }
+
+
+</script>
+
+</html>
