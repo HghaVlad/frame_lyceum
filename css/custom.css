@@ -10847,13 +10847,16 @@ textarea.form-control-lg {
   border-width: 2px;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .my-mine {
     margin-top: 3rem !important;
     margin-bottom: 3rem !important;
   }
+  .my-header {
+    display: none;
+  }
 }
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 992px) {
   .my-mine2 {
     margin-right: 0.5rem !important;
   }

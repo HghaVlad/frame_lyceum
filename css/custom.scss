@@ -42,15 +42,18 @@ $danger: #e63946;
 
 
   
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .my-mine {
         margin-top: 3rem !important;
         margin-bottom: 3rem !important;
       }
+    .my-header{
+      display:  none;
+    }
 
   }
 
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 992px) {
     .my-mine2 {
         margin-right: 0.5rem !important;
       }
@@ -60,3 +63,17 @@ $danger: #e63946;
 .btn-outline-primary:hover, .btn-outline-danger:hover{
   color: white;
 }
+
+
+// .nav-link:hover{
+//   color: #e63946;
+// }
+
+// .nav-link-red{
+//   color: #e63946;
+// }
+
+// .my-button:hover{
+//   background-color: #e63946;
+//   border-color: #e63946;
+// }
