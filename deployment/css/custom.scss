@@ -1,5 +1,5 @@
 $primary: #0c8ce9;
-$danger: #e63946;
+$danger: #EA1264;
 
 @font-face {
     font-family: 'Halvar Breitschrift'; /*a name to be used later*/
@@ -20,20 +20,13 @@ $danger: #e63946;
 }
 
 
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
 .my_card {
     border-style: dashed;
     border-color: #0c8ce9;
     border-width: 2px;
     
-}
-
-.my-red-card {
-  border-style: dashed;
-  border-color: #e63946;
-  border-width: 2px;
-  
 }
 
 .my-mine {
