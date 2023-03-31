@@ -11,28 +11,59 @@
 <body> 
     
 
-    <div class="container">
-      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <div class="col-md-3 mb-2 mb-md-0">
-          <a href="/" class="navbar-left"><img width="120px" src="../frame.png"></a>
+  <div class="container my-header">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-2 mb-2 mb-md-0">
+        <a href="/" class="navbar-left"><img width="120px" src="../frame.png"></a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="lectures.html" class="nav-link px-2 hvt">Лекции</a></li>
+        <li><a href="master-classes.html" class="nav-link px-2 hvt">Мастер-классы</a></li>
+        <li><a href="shop.html" class="nav-link px-2 hvt">Магазин</a></li>
+      </ul>
+
+      <div class="col-md-4 text-end">
+        <a href="login.html" class="btn btn-outline-primary my-mine2 my-2"><div class="hvt">Авторизация</div></a>
+        <a href="reg.html" class="btn btn-outline-primary"><div class="hvt">Регистрация</div></a>
+      </div>
+    </header>
+  </div>
+  <nav class="navbar navbar-expand-md navbar-light bg-light d-md-none">
+      <div class="container-fluid">
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobileMenu" aria-controls="navbarMobileMenu" aria-expanded="false" aria-label="Меню">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMobileMenu">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+              <li class="nav-item">
+                  <a href="/" class="navbar-left"><img width="120px" src="../frame.png"></a>
+                </li>
+            <li class="nav-item">
+              <a class="nav-link" href="lectures.html"><div class="hvt">Лекции</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="master-classes.html"><div class="hvt">Мастер-классы</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="shop.html"><div class="hvt">Магазин</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html"><div class="hvt">Авторизация</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reg.html"><div class="hvt">Регистрация</div></a>
+            </li>
+          </ul>
         </div>
-  
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="/lectures.html"" class="nav-link px-2 hvt">Лекции</a></li>
-          <li><a href="/master-classes" class="nav-link px-2 hvt">Мастер классы</a></li>
-          <li><a href="/shop" class="nav-link px-2 hvt">Магазин</a></li>
-        </ul>
-  
-        <div class="col-md-4 text-end">
-          <a href="/pages/login.html" class="btn btn-outline-primary my-mine2"><div class="hvt">Авторизация</div></a>
-          <a href="/pages/reg.html" class="btn btn-outline-primary"><div class="hvt">Регистрация</div></a>
-        </div>
-      </header>
-    </div>
+      </div>
+    </nav>
 
     <div class="container">
 
     </div>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
 </html>
