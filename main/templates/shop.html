@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Магазин{% endblock %}
+
+{% block content %}
+{% load math %}
+<div class="container my-5" id="mycontainer">
+    <h1 class="hvt text-primary ">Магазин призов</h1>
+    <br>
+    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3">
+        {% for good in goods %}
+          <div class="col">
+            <div class="card shadow-sm align-items-stretch h-100">
+              <img class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#55595c"></rect>
+              <div class="card-body ">
+                <p class="card-text ttf fs-2 text-primary">{{ good.Name }}</p>
+                <p class="card-text ttf fs-5 text-primary">{{ good.Description }} </p>
+                <p class="card-text ttf fs-5 text-primary">Осталось: {{ good.Amount|get_left:good.Bought }} шт.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button onclick="order(1, 100)" type="button" class="btn btn-sm btn-primary" style="color: white;">Купить за {{ good.Price }} баллов</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+     </div>
+  </div>
+
+  <div class="container d-flex justify-content-center h-100 d-none" id="myasker">
+    <div class="card shadow">
+      <div class="card-body">
+
+        <div class="d-flex justify-content-center align-items-center mb-3">
+
+          <h3 class="card-title hvt text-primary">Покупка товара</h3>
+        </div>
+        <p class="card-text fs-4 ttf">Вы уверены, что хотите купить данный товар?</p>
+        <div class="d-grid gap-2 col-6 mx-auto">
+        <button onclick="agree_purchase()" type="button" class="btn btn-outline-success">Да</button>
+        <button onclick="decline_purchase()" type="button" class="btn btn-outline-danger">Нет</button>
+    </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="container d-flex justify-content-center h-100 d-none" id="fail_page">
+    <div class="card shadow">
+      <div class="card-body">
+
+        <div class="d-flex justify-content-center align-items-center mb-3">
+
+          <h3 class="card-title hvt text-danger">Недостаточно средств</h3>
+        </div>
+        <p class="card-text fs-4 ttf">Вы не можете позволить себе этот товар</p>
+        <div class="d-grid gap-2 col-6 mx-auto">
+        <button onclick="close_page()" type="button" class="btn btn-outline-danger">Закрыть</button>
+    </div>
+    </div>
+  </div>
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+        var container = document.getElementById("mycontainer");
+        var asker = document.getElementById("myasker");
+        var fail_page = document.getElementById("fail_page");
+        var mypoints = 100
+        var good_id = -1
+        function order(chosen_good_id, need_points){
+            container.classList.add("d-none");
+            if (mypoints >= need_points){
+                asker.classList.remove("d-none");
+                good_id = chosen_good_id;
+            }
+            else{
+                fail_page.classList.remove("d-none");
+            }
+        }
+
+        function agree_purchase(){
+            if (good_id > 0) {
+            document.location.href = "/" + good_id;
+            }
+        }
+        function decline_purchase(){
+            asker.classList.add("d-none");
+            container.classList.remove("d-none");
+            good_id = -1;
+        }
+
+        function close_page(){
+            fail_page.classList.add("d-none");
+            container.classList.remove("d-none");
+        }
+    </script>
+{% endblock %}

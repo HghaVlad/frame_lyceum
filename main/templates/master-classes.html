@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Мастер-классы{% endblock %}
+
+{% block content %}
+
+<h2>Hello world</h2>
+<div class="container my-5" id="mycontainer">
+        <h1 class="hvt text-primary ">Доступные мастер-классы</h1>
+        <br>
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 g-3">
+            {% for ms_class in master_classes %}
+             <div class="col">
+                <div class="card shadow-sm align-items-stretch h-100 my_card">
+                  <div class="card-body ">
+                    <div class="table-responsive ">
+                        <table class="table table-borderless table-sm">
+                            <tr>
+                              <td> <h5 class="hvt text-primary">Название:</h5></td>
+                              <td><p class="ttf fs-5">{{ ms_class.name }}</p></td>
+                            </tr>
+                            <tr>
+                              <td> <h5 class="hvt text-primary">Спикер:</h5></td>
+                              <td><p class="ttf fs-5">{{ ms_class.speaker }}</p></td>
+                            </tr>
+                            <tr>
+                              <td> <h5 class="hvt text-primary">Время:</h5></td>
+                              <td><p class="ttf fs-5">{{ ms_class.time }}</p></td>
+                            </tr>
+                            <tr>
+                                <td> <h5 class="hvt text-primary">Свободных мест:</h5></td>
+                                <td><p class="ttf fs-5">{{ ms_class.places }}</p></td>
+                              </tr>
+                        </table>
+                    <p class="card-text ttf fs-4 text-primary">{{ ms_class.description }}</p>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button onclick="attend({{ ms_class.id }})" type="button" class="btn btn-primary" style="color: white;">Записаться</button>
+                    </div>
+
+                  </div>
+                  </div>
+                </div>
+             </div>
+            {% endfor %}
+        </div>
+      </div>
+
+      <div class="container d-flex justify-content-center h-100 d-none" id="myasker">
+        <div class="card shadow">
+          <div class="card-body">
+
+            <div class="d-flex justify-content-center align-items-center mb-3">
+
+              <h3 class="card-title hvt text-primary">Запись на мастер-класс</h3>
+            </div>
+            <p class="card-text fs-4 ttf">Вы уверены, что хотите записаться на мастер-класс?</p>
+            <div class="d-grid gap-2 col-6 mx-auto">
+            <button onclick="agree_attend()" type="button" class="btn btn-outline-success">Да</button>
+            <button onclick="decline_attend()" type="button" class="btn btn-outline-danger">Нет</button>
+        </div>
+        </div>
+      </div>
+      </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var container = document.getElementById("mycontainer");
+        var asker = document.getElementById("myasker");
+        var lecture_id = -1;
+        function attend(chosen_lecture_id){
+            container.classList.add("d-none");
+            asker.classList.remove("d-none");
+            lecture_id = chosen_lecture_id;
+        }
+
+        function agree_attend(){
+            if (lecture_id > 0) {
+                document.location.href = "/attend_master_clasees/?msclass_id=" + lecture_id;
+            }
+        }
+        function decline_attend(){
+            asker.classList.add("d-none");
+            container.classList.remove("d-none");
+            lecture_id = -1;
+        }
+    </script>
+{% endblock %}

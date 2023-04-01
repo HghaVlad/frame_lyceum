@@ -1,0 +1,72 @@
+$primary: #0c8ce9;
+$danger: #EA1264;
+
+@font-face {
+    font-family: 'Halvar Breitschrift'; /*a name to be used later*/
+    src: url('fonts/HalvarBreit-Bd.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'TT Norms'; /*a name to be used later*/
+    src: url('/fonts/TTNormsRegular.ttf'); /*URL to font*/
+}
+
+.hvt {
+  font-family: "Halvar Breitschrift";
+}
+
+.ttf {
+    font-family: "TT Norms";
+}
+
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.my_card {
+    border-style: dashed;
+    border-color: #0c8ce9;
+    border-width: 2px;
+    
+}
+
+.my-mine {
+   
+  }
+
+
+  
+@media screen and (max-width: 768px) {
+    .my-mine {
+        margin-top: 3rem !important;
+        margin-bottom: 3rem !important;
+      }
+    .my-header{
+      display:  none;
+    }
+
+  }
+
+@media screen and (min-width: 992px) {
+    .my-mine2 {
+        margin-right: 0.5rem !important;
+      }
+
+  }
+
+.btn-outline-primary:hover, .btn-outline-danger:hover{
+  color: white;
+}
+
+
+// .nav-link:hover{
+//   color: #e63946;
+// }
+
+// .nav-link-red{
+//   color: #e63946;
+// }
+
+// .my-button:hover{
+//   background-color: #e63946;
+//   border-color: #e63946;
+// }
