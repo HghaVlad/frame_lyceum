@@ -11,6 +11,7 @@ class Goods(models.Model):
     Price = models.IntegerField()
     Amount = models.IntegerField()
     Bought_col = models.IntegerField()
+    available = models.IntegerField()  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
 
@@ -22,6 +23,7 @@ class Lectures(models.Model):
     Location = models.CharField(max_length=50)
     Places = models.IntegerField()
     Attends = models.IntegerField()
+    available = models.IntegerField()  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
 
@@ -38,6 +40,9 @@ class User(AbstractUser):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', "user_class"]
 
-
-
+    def reg(self, user_data):
+        self.name = user_data["user_name"]
+        self.user_class = user_data["user_class"]
+        self.username = user_data["login"]
+        self.save()
 
