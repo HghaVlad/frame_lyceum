@@ -13,7 +13,9 @@ def lecture_page(request):
 
 
 def attend_lecture(request, lecture_id):
-    pass
+    my_lecture = Lectures.objects.filter(id=lecture_id).first()
+    if my_lecture is not None:
+        pass
 
 
 def master_classes_page(request):
