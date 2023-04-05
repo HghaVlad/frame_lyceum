@@ -1,21 +1,34 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from .models import User, Lectures, Goods
+from django.contrib.auth import login, authenticate, logout
+from .models import User, Lecture, Good
 # Create your views here.
+
 
 def index_page(request):
     return render(request, "index.html")
 
 
 def lecture_page(request):
-    lectures = Lectures.objects.filter(available=1).all()
+    lectures = Lecture.objects.filter(available=1).all()
     return render(request, "lectures.html", {"lectures": lectures})
 
 
 def attend_lecture(request, lecture_id):
-    my_lecture = Lectures.objects.filter(id=lecture_id).first()
-    if my_lecture is not None:
-        pass
+    if request.user.is_authenticated:
+        my_lecture = Lecture.objects.filter(id=lecture_id).first()
+        if my_lecture is not None:
+            if my_lecture.Attends < my_lecture.Places:
+                if my_lecture.check_reg(request.user):
+                    my_lecture.attend(request.user)
+                    return render(request, "success_page.html", {"message": "Успех", "comment": "Вы зарегистрировались на лекцию"})
+                else:
+                    return render(request, "error_page.html", {"message": "Повторная регистрация", "comment": "Вы уже зарегистрированы на этой лекции"})
+            else:
+                return render(request, "error_page.html", {"message": "Нет мест", "comment": "К сожалению все свободные места на данную лекцию закончились"})
+        else:
+            return render(request, "error_page.html", {"message": "Лекция не найдена", "comment": "Проверьте ссылку"})
+
+    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста зарегистрируйтесь"})
 
 
 def master_classes_page(request):
@@ -27,7 +40,7 @@ def attend_master_class(request, msclass_id):
 
 
 def shop_page(request):
-    goods = Goods.objects.filter(available=1)
+    goods = Good.objects.filter(available=1)
     return render(request, "shop.html", {"goods": goods})
 
 
@@ -56,3 +69,11 @@ def reg_page(request):
             login(request, newuser)
             return redirect("/")
 
+
+def logout_page(request):
+    logout(request)
+    return redirect("/")
+
+
+def profile_page(request):
+    pass

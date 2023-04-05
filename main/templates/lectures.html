@@ -4,7 +4,8 @@
 
 {% block content %}
 
-<h2>Hello world</h2>
+{% load math %}
+
 <div class="container my-5" id="mycontainer">
         <h1 class="hvt text-primary ">Доступные лекциии</h1>
         <br>
@@ -33,7 +34,7 @@
                             </tr>
                             <tr>
                                 <td> <h5 class="hvt text-primary">Свободных мест:</h5></td>
-                                <td><p class="ttf fs-5">{{ lecture.Places }}</p></td>
+                                <td><p class="ttf fs-5">{{ lecture.Places|get_left:lecture.Attends }}</p></td>
                               </tr>
                         </table>
                     <p class="card-text ttf fs-4 text-primary">{{ lecture.Description }}</p>
@@ -82,7 +83,7 @@
 
         function agree_attend(){
             if (lecture_id > 0) {
-                document.location.href = "/attend_lectures/?lecture_id=" + lecture_id;
+                document.location.href = "/attend_lectures/" + lecture_id;
             }
         }
         function decline_attend(){
