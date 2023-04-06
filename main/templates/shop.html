@@ -17,7 +17,7 @@
                 <p class="card-text ttf fs-5 text-primary">{{ good.Description }} </p>
                 <p class="card-text ttf fs-5 text-primary">Осталось: {{ good.Quantity|get_left:good.Bought_col }} шт.</p>
                 <div class="d-flex justify-content-between align-items-center">
-                  <button onclick="order(1, 100)" type="button" class="btn btn-sm btn-primary" style="color: white;">Купить за {{ good.Price }} баллов</button>
+                  <button onclick="order(1, {{ good.Price }})" type="button" class="btn btn-sm btn-primary" style="color: white;">Купить за {{ good.Price }} баллов</button>
                 </div>
               </div>
             </div>
@@ -66,7 +66,7 @@
         var container = document.getElementById("mycontainer");
         var asker = document.getElementById("myasker");
         var fail_page = document.getElementById("fail_page");
-        var mypoints = 100
+        var mypoints = {{ request.user.points }}
         var good_id = -1
         function order(chosen_good_id, need_points){
             container.classList.add("d-none");
@@ -81,7 +81,7 @@
 
         function agree_purchase(){
             if (good_id > 0) {
-            document.location.href = "/" + good_id;
+            document.location.href = "/make_order/" + good_id;
             }
         }
         function decline_purchase(){

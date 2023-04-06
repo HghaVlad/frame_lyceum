@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Приз{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center h-100" id="myasker">
+        <div class="card shadow">
+          <div class="card-body">
+
+            <div class="d-flex justify-content-center align-items-center mb-3">
+
+              <h3 class="card-title hvt text-primary">Приз</h3>
+            </div>
+
+            <div class="table-responsive ">
+                <table class="table table-borderless">
+                    <tr>
+                      <td> <h4 class="hvt text-primary">Название:</h4></td>
+                      <td><p class="ttf fs-5">{{ order.Good.Name }}</p></td>
+                    </tr>
+                    <tr>
+                        <td> <h4 class="hvt text-primary">Код:</h4></td>
+                        <td><p class="ttf fs-5">{{ order.Code }}</p></td>
+                      </tr>
+                </table>
+              </div>
+              <p class="card-text fs-4 ttf">Покажите этот код волонтеру</p>
+            <div class="d-flex justify-content-center align-items-center mb-3">
+
+                <h3 class="card-title hvt ">{{ order.Code }}</h3>
+              </div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+        </div>
+        </div>
+      </div>
+      </div>
+
+{% endblock %}

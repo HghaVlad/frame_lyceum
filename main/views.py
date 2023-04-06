@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .models import User, Lecture, Good, MasterClass, Registration
+from .models import User, Lecture, Good, MasterClass, Registration, Order, ActivationCode
 
 
 # Create your views here.
@@ -16,12 +16,12 @@ def lecture_page(request):
 def attend_lecture(request, lecture_id):
     if request.user.is_authenticated:
         my_lecture = Lecture.objects.filter(id=lecture_id).first()
-        if my_lecture is not None:
+        if my_lecture:
             if my_lecture.Attends < my_lecture.Places:
                 if my_lecture.check_reg(request.user):
                     my_lecture.attend(request.user)
                     return render(request, "success_page.html", {"message": "Успех", "comment":
-                                                                                     "Вы зарегистрировались на лекцию"})
+                        "Вы зарегистрировались на лекцию"})
                 else:
                     return render(request, "error_page.html", {"message": "Повторная регистрация",
                                                                "comment": "Вы уже зарегистрированы на этой лекции"})
@@ -55,11 +55,13 @@ def shop_page(request):
 def make_order(request, good_id):
     if request.user.is_authenticated:
         my_good = Good.objects.filter(id=good_id).first()
-        if my_good is not None:
+        if my_good:
             if request.user.points > my_good.Price:
                 if my_good.Quantity > my_good.Bought_col:
-                    my_good.purchase(request.user)
-                    return render(request, "success_page.html", {"message": "Успех", "comment": "Вы приобрели товар"})
+                    if my_good.purchase(request.user):
+                        return render(request, "success_page.html", {"message": "Успех", "comment": "Вы приобрели товар"})
+                    else:
+                        return render(request, "error_page.html", {"message": "Вы уже приобретали данный товар"})
                 else:
                     return render(request, "error_page.html", {"message": "Товар закончился"})
             else:
@@ -76,7 +78,7 @@ def login_page(request):
     else:
         data = request.POST
         user = authenticate(request, username=data['user_login'], password=data['user_password'])
-        if user is not None:
+        if user:
             login(request, user)
             return redirect("/")
         return render(request, "login.html", {"status": "Неверный логин или пароль"})
@@ -110,10 +112,54 @@ def cancel_attend(request):
     if request.method == "POST":
         data = request.POST
         my_reg = Registration.objects.filter(id=data['reg_id']).first()
-        if my_reg is None:
+        if my_reg:
             return render(request, "error_page.html", {"message": "Запись не найдена", "comment": "Вы не записаны на "
                                                                                                   "данную лекцию"})
         else:
             my_reg.cancel()
 
     return redirect("/profile")
+
+
+def show_code(request, order_id):
+    if request.user.is_authenticated:
+        my_oder = Order.objects.filter(id=order_id).first()
+        if my_oder:
+            return render(request, "show_prise.html", {"order": my_oder})
+        else:
+            return render(request, "error_page.html", {"message": "Приз не найден"})
+
+    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
+                                                                                           "зарегистрируйтесь"})
+
+
+def enter_code(request):
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            return render(request, "enter_code.html")
+        else:
+            code = request.POST['Code']
+            my_activation_code = ActivationCode.objects.filter(Code=code).first()
+            if my_activation_code:
+                if my_activation_code.activate(request.user):
+                    return render(request, "success_page.html", {"message": "Успех", "comment": "Вы активировали код"})
+                else:
+                    return render(request, "error_page.html", {"message": "Код не найден"})
+            return render(request, "error_page.html", {"message": "Код не найден"})
+
+    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
+                                                                                           "зарегистрируйтесь"})
+
+
+def get_code(request, code):
+    if request.user.is_authenticated:
+        my_activation_code = ActivationCode.objects.filter(Code=code).first()
+        if my_activation_code:
+            if my_activation_code.activate(request.user):
+                return render(request, "success_page.html", {"message": "Успех", "comment": "Вы активировали код"})
+            else:
+                return render(request, "error_page.html", {"message": "Код не найден"})
+        return render(request, "error_page.html", {"message": "Код не найден"})
+
+    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
+                                                                                           "зарегистрируйтесь"})

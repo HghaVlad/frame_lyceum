@@ -22,13 +22,20 @@ class Good(models.Model):
         return str(self.Name) + " - " + str(self.Quantity)
 
     def purchase(self, user):
-        new_order = Order()
-        new_order.make(self, user)
-        self.Bought_col += 1
-        user.points -= self.Price
-        self.save()
-        new_order.save()
-        user.save()
+        if self.check_user(user):
+            new_order = Order()
+            new_order.new(self, user)
+            self.Bought_col += 1
+            user.points -= self.Price
+            self.save()
+            new_order.save()
+            user.save()
+            return True
+
+        return False
+
+    def check_user(self, user):
+        return Order.objects.filter(User=user, Good=self).count() == 0
 
 
 class Lecture(models.Model):
@@ -53,8 +60,7 @@ class Lecture(models.Model):
         self.save()
 
     def check_reg(self, user):  # Is available to reg
-        reg = Registration.objects.filter(User=user, Lecture=self).first()
-        return reg is None
+        return Registration.objects.filter(User=user, Lecture=self).count() == 0
 
 
 class MasterClass(models.Model):
@@ -82,8 +88,7 @@ class MasterClass(models.Model):
         self.save()
 
     def check_reg(self, user, time):  # Is available to reg
-        reg = Registration.objects.filter(User=user, Lecture=self, Time=time).first()
-        return reg is None and time in self.Time
+        return Registration.objects.filter(User=user, Lecture=self, Time=time).count() == 0 and time in self.Time
 
 
 class User(AbstractUser):
@@ -135,15 +140,15 @@ class Registration(models.Model):
                     self.Masterclass.save()
                     break
         archive = ArchiveRegistration()
-        archive.new(self)
+        archive.create(self)
         archive.save()
         self.delete()
 
 
-class ArchiveRegistration(models.Model, Registration):
+class ArchiveRegistration(Registration):
     Cancel_time = models.DateTimeField()
 
-    def new(self, data: Registration):
+    def create(self, data: Registration):
         self.Attend_type = data.Attend_type
         self.Lecture = data.Lecture
         self.Masterclass = data.Masterclass
@@ -163,10 +168,58 @@ class Order(models.Model):
     Made_date = models.DateTimeField()
     Complete_Date = models.DateTimeField(blank=True, null=True)
 
-    def make(self, good, user):
+    def __str__(self):
+        return self.User.name + ' - ' + self.Good.Name
+
+    def new(self, good, user):
         self.Good = good
         self.User = user
         self.Price = good.Price
-        self.Code = code_generator(7)
+        self.Code = code_generator(5)
         self.Made_date = datetime.now()
         self.save()
+
+
+class ActivationCode(models.Model):
+    id = models.AutoField(primary_key=True)
+    Amount = models.IntegerField()
+    Used = models.IntegerField(default=0)
+    Code = models.CharField(max_length=10)
+    Available = models.IntegerField(default=1)
+    Made_date = models.DateTimeField()
+
+    def make(self, amount):
+        self.Amount = amount
+        self.Made_date = datetime.now()
+        self.Code = code_generator(8)
+
+    def activate(self, user):
+        if self.check_user(user):
+            self.Used += 1
+            new_activation = Activation()
+            new_activation.make(self, user)
+            user.points += self.Amount
+            user.save()
+            new_activation.save()
+            self.save()
+            return True
+
+        return False
+
+    def check_user(self, user):
+        return Activation.objects.filter(Code=self, User=user).count() == 0
+
+
+class Activation(models.Model):
+    id = models.AutoField(primary_key=True)
+    Code = models.ForeignKey(ActivationCode, default="NONE", on_delete=models.SET_DEFAULT)
+    User = models.ForeignKey(User, on_delete=models.CASCADE)
+    Amount = models.IntegerField()
+    Date = models.DateTimeField()
+
+    def make(self, code, user):
+        self.Code = code
+        self.User = user
+        self.Amount = code.Amount
+        self.Date = datetime.now()
+

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Получить баллы{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid vh-100" >
+        <div>
+            <div class="rounded d-flex justify-content-center">
+                <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+                    <div class="text-center">
+                        <h1 class="text-danger">Код лекции</h1>
+                    </div>
+                    <form action="" method="POST">
+                        <div class="p-2">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control ttf" name="Code" placeholder="Введите 8-значный код">
+                            </div>
+
+                            <button  class="btn btn-danger text-center mt-2" type="submit">
+                                 <div class="hvt" style="color: white;">Отправить</div>
+                            </button>
+                            {% csrf_token %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
