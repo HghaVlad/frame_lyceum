@@ -15,7 +15,7 @@
               <div class="card-body ">
                 <p class="card-text ttf fs-2 text-primary">{{ good.Name }}</p>
                 <p class="card-text ttf fs-5 text-primary">{{ good.Description }} </p>
-                <p class="card-text ttf fs-5 text-primary">Осталось: {{ good.Amount|get_left:good.Bought_col }} шт.</p>
+                <p class="card-text ttf fs-5 text-primary">Осталось: {{ good.Quantity|get_left:good.Bought_col }} шт.</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <button onclick="order(1, 100)" type="button" class="btn btn-sm btn-primary" style="color: white;">Купить за {{ good.Price }} баллов</button>
                 </div>

@@ -20,12 +20,12 @@
                               <td><p class="ttf fs-5">{{ ms_class.name }}</p></td>
                             </tr>
                             <tr>
-                              <td> <h5 class="hvt text-primary">Спикер:</h5></td>
-                              <td><p class="ttf fs-5">{{ ms_class.speaker }}</p></td>
+                              <td> <h5 class="hvt text-primary">Время:</h5></td>
+                              <td><p class="ttf fs-5">{{ ms_class.time_string }}</p></td>
                             </tr>
                             <tr>
-                              <td> <h5 class="hvt text-primary">Время:</h5></td>
-                              <td><p class="ttf fs-5">{{ ms_class.time }}</p></td>
+                              <td> <h5 class="hvt text-primary">Место:</h5></td>
+                              <td><p class="ttf fs-5">{{ ms_class.Location }}</p></td>
                             </tr>
                             <tr>
                                 <td> <h5 class="hvt text-primary">Свободных мест:</h5></td>
@@ -35,7 +35,7 @@
                     <p class="card-text ttf fs-4 text-primary">{{ ms_class.description }}</p>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <button onclick="attend({{ ms_class.id }})" type="button" class="btn btn-primary" style="color: white;">Записаться</button>
+                        <button onclick="select_time({{ ms_class.id }} )" type="button" class="btn btn-primary" style="color: white;">Записаться</button>
                     </div>
 
                   </div>
@@ -63,19 +63,39 @@
       </div>
       </div>
 
+
+
 {% endblock %}
 
 {% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script>
         var container = document.getElementById("mycontainer");
         var asker = document.getElementById("myasker");
         var lecture_id = -1;
-        function attend(chosen_lecture_id){
+        var times = []
+        function attend(chosen_lecture_id, time){
             container.classList.add("d-none");
             asker.classList.remove("d-none");
             lecture_id = chosen_lecture_id;
         }
+        function select_time(chosen_master_class_id){
+            get_time(chosen_master_class_id)
+        }
+        function get_time(ms_class_id){
+            $.ajax({
+                url: "/get_ms_time",
+                data: {"ms_class_id": ms_class_id},
+                method: "GET",
+                success: function (data){
+                    for (let time in data['time']){
+                        console.log(time);
+                    }
+                    times = data['time']
+                },
 
+            })
+        }
         function agree_attend(){
             if (lecture_id > 0) {
                 document.location.href = "/attend_master_clasees/" + lecture_id;
@@ -86,5 +106,6 @@
             container.classList.remove("d-none");
             lecture_id = -1;
         }
+
     </script>
 {% endblock %}

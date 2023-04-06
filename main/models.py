@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
+from .utils import code_generator
 # Create your models here.
 
 
@@ -12,13 +13,22 @@ class Good(models.Model):
     Description = models.TextField()
     Img = models.CharField(max_length=400)
     Price = models.IntegerField()
-    Amount = models.IntegerField()
+    Quantity = models.IntegerField()  # Количество
     Bought_col = models.IntegerField(default=0)
     available = models.IntegerField()  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
     def __str__(self):
-        return self.Name + " - " + str(self.Amount)
+        return str(self.Name) + " - " + str(self.Quantity)
+
+    def purchase(self, user):
+        new_order = Order()
+        new_order.make(self, user)
+        self.Bought_col += 1
+        user.points -= self.Price
+        self.save()
+        new_order.save()
+        user.save()
 
 
 class Lecture(models.Model):
@@ -33,7 +43,7 @@ class Lecture(models.Model):
     Date = models.DateTimeField()  # Дата создания
 
     def __str__(self):
-        return self.Name + " by " + self.Speaker
+        return str(self.Name) + " by " + str(self.Speaker)
 
     def attend(self, user):
         new_reg = Registration()
@@ -42,24 +52,38 @@ class Lecture(models.Model):
         self.Attends += 1
         self.save()
 
-    def check_reg(self, user):
+    def check_reg(self, user):  # Is available to reg
         reg = Registration.objects.filter(User=user, Lecture=self).first()
         return reg is None
 
 
-class Master_class(models.Model):
+class MasterClass(models.Model):
     id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=100)
     Description = models.TextField()
     Time = ArrayField(ArrayField(models.CharField(max_length=10, blank=True)))
     Location = models.CharField(max_length=50)
     Places = models.IntegerField()
-    Attends = models.IntegerField(default=0)
+    Attends = ArrayField(ArrayField(models.IntegerField(default=0)))
     available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
     def __str__(self):
         return self.Name
+
+    def attend(self, user, time):
+        new_reg = Registration()
+        new_reg.new("MS", self, user, time)
+        new_reg.save()
+        for i in range(self.Time.size()):
+            if time == self.Time[i]:
+                self.Attends[i] += 1
+                break
+        self.save()
+
+    def check_reg(self, user, time):  # Is available to reg
+        reg = Registration.objects.filter(User=user, Lecture=self, Time=time).first()
+        return reg is None and time in self.Time
 
 
 class User(AbstractUser):
@@ -82,7 +106,7 @@ class Registration(models.Model):
     id = models.AutoField(primary_key=True)
     Attend_type = models.CharField(max_length=20, choices=[("LC", "Lecture"), ("MS", "Master-class")])
     Lecture = models.ForeignKey(Lecture, null=True, blank=True, on_delete=models.CASCADE)
-    Masterclass = models.ForeignKey(Master_class, null=True, blank=True, on_delete=models.CASCADE)
+    Master_class = models.ForeignKey(MasterClass, null=True, blank=True, on_delete=models.CASCADE)
     User = models.ForeignKey(User, on_delete=models.CASCADE)
     Time = models.CharField(max_length=20)
     Registration_time = models.DateTimeField()
@@ -90,13 +114,59 @@ class Registration(models.Model):
     def __str__(self):
         return self.Attend_type + ": " + self.Lecture.Name + " at " + self.Time
 
-    def new(self, attend_type, course, user, time):
-        self.Attend_type = attend_type
+    def new(self, course_type, course, user, time):
+        self.Attend_type = course_type
         self.User = user
         self.Time = time
         self.Registration_time = datetime.now()
-        if attend_type == "LC":
+        if course_type == "LC":
             self.Lecture = course
         else:
             self.Masterclass = course
 
+    def cancel(self):
+        if self.Attend_type == "LC":
+            self.Lecture.Attends -= 1
+            self.Lecture.save()
+        else:
+            for i in range(self.Masterclass.Time.size()):
+                if self.Time == self.Masterclass.Time[i]:
+                    self.Masterclass.Attends[i] += 1
+                    self.Masterclass.save()
+                    break
+        archive = ArchiveRegistration()
+        archive.new(self)
+        archive.save()
+        self.delete()
+
+
+class ArchiveRegistration(models.Model, Registration):
+    Cancel_time = models.DateTimeField()
+
+    def new(self, data: Registration):
+        self.Attend_type = data.Attend_type
+        self.Lecture = data.Lecture
+        self.Masterclass = data.Masterclass
+        self.User = data.User
+        self.Time = data.Time
+        self.Registration_time = data.Registration_time
+        self.Cancel_time = datetime.now()
+
+
+class Order(models.Model):
+    id = models.AutoField(primary_key=True)
+    Good = models.ForeignKey(Good, on_delete=models.CASCADE)
+    User = models.ForeignKey(User, on_delete=models.CASCADE)
+    Price = models.IntegerField()
+    Code = models.CharField(max_length=10)
+    Status = models.IntegerField(default=0)  # Order status:  0 - Made; 1 - Completed(the good has been taken)
+    Made_date = models.DateTimeField()
+    Complete_Date = models.DateTimeField(blank=True, null=True)
+
+    def make(self, good, user):
+        self.Good = good
+        self.User = user
+        self.Price = good.Price
+        self.Code = code_generator(7)
+        self.Made_date = datetime.now()
+        self.save()
