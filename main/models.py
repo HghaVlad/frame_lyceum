@@ -96,6 +96,7 @@ class User(AbstractUser):
     user_class = models.CharField(max_length=20)
     username = models.CharField(max_length=100, unique=True)
     points = models.IntegerField(default=0)
+    won_prises = models.IntegerField(default=0)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', "user_class"]
@@ -106,10 +107,14 @@ class User(AbstractUser):
         self.username = user_data["login"]
         self.save()
 
+    def change_password(self, new_password):
+        self.set_password(new_password)
+        self.save()
+
 
 class Registration(models.Model):
     id = models.AutoField(primary_key=True)
-    Attend_type = models.CharField(max_length=20, choices=[("LC", "Lecture"), ("MS", "Master-class")])
+    Attend_type = models.CharField(max_length=20)
     Lecture = models.ForeignKey(Lecture, null=True, blank=True, on_delete=models.CASCADE)
     Master_class = models.ForeignKey(MasterClass, null=True, blank=True, on_delete=models.CASCADE)
     User = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -142,16 +147,24 @@ class Registration(models.Model):
         archive = ArchiveRegistration()
         archive.create(self)
         archive.save()
-        self.delete()
 
 
-class ArchiveRegistration(Registration):
+class ArchiveRegistration(models.Model):
+    id = models.AutoField(primary_key=True)
+    Attend_type = models.CharField(max_length=20)
+    Lecture = models.ForeignKey(Lecture, null=True, blank=True, on_delete=models.CASCADE)
+    Master_class = models.ForeignKey(MasterClass, null=True, blank=True, on_delete=models.CASCADE)
+    User = models.ForeignKey(User, on_delete=models.CASCADE)
+    Time = models.CharField(max_length=20)
+    Registration_time = models.DateTimeField()
     Cancel_time = models.DateTimeField()
 
     def create(self, data: Registration):
         self.Attend_type = data.Attend_type
-        self.Lecture = data.Lecture
-        self.Masterclass = data.Masterclass
+        if self.Attend_type == "LC":
+            self.Lecture = data.Lecture
+        else:
+            self.Masterclass = data.Masterclass
         self.User = data.User
         self.Time = data.Time
         self.Registration_time = data.Registration_time
