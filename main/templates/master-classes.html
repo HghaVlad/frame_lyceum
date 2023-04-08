@@ -35,7 +35,7 @@
                     <p class="card-text ttf fs-4 text-primary">{{ ms_class.description }}</p>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <button onclick="select_time({{ ms_class.id }} )" type="button" class="btn btn-primary" style="color: white;">Записаться</button>
+                        <button onclick="attend({{ ms_class.id }})" type="button" class="btn btn-primary" style="color: white;">Записаться</button>
                     </div>
 
                   </div>
@@ -63,6 +63,32 @@
       </div>
       </div>
 
+        <div class="container d-flex justify-content-center d-none" id="time_asker">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="d-flex justify-content-center align-items-center mb-3">
+
+                  <h3 class="card-title hvt text-primary">Выберите время</h3>
+                </div>
+
+                <div class="row row-cols-3 g-2" id="times">
+                    <div class="col">
+                      <button class="btn btn-primary" type="submit">11:00</button>
+                    </div>
+                      <div class="col">
+                      <button class="btn btn-primary" type="submit">12:00</button>
+                    </div>
+                    <div class="col">
+                      <button  class="btn btn-primary" type="submit">11:00</button>
+                    </div>
+                      <div class="col">
+                      <button class="btn btn-primary" type="submit">12:00</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
 
 
 {% endblock %}
@@ -72,15 +98,19 @@
     <script>
         var container = document.getElementById("mycontainer");
         var asker = document.getElementById("myasker");
+        var time_asker = document.getElementById("time_asker")
+        var time_row = document.getElementById("times")
         var lecture_id = -1;
-        var times = []
-        function attend(chosen_lecture_id, time){
-            container.classList.add("d-none");
+        var time_index = -1
+        function agree_time(chosen_time){
+            time_asker.classList.add("d-none");
             asker.classList.remove("d-none");
-            lecture_id = chosen_lecture_id;
+            time_index = chosen_time;
         }
-        function select_time(chosen_master_class_id){
+        function attend(chosen_master_class_id){
             get_time(chosen_master_class_id)
+            time_asker.classList.remove("d-none")
+            asker.classList.add("d-none")
         }
         function get_time(ms_class_id){
             $.ajax({
@@ -88,17 +118,30 @@
                 data: {"ms_class_id": ms_class_id},
                 method: "GET",
                 success: function (data){
+                    time_row.innerHTML = ""
+                    let i = 0
                     for (let time in data['time']){
-                        console.log(time);
+                        make_button(time, i)
+                        i += 1
                     }
-                    times = data['time']
                 },
+                error: function (message){
+                    console.log(message)
+                    time_row.innerHTML = '<h3 class="card-title hvt text-danger">Произошла ошибка</h3>'
+                }
 
             })
         }
+        function make_button(time, local_time_index){
+            let button = document.createElement("button")
+            button.className = "btn btn-danger"
+            button.innerText = time;
+            button.setAttribute("onclick", "agree_time("+local_time_index+")")
+            time_row.appendChild(button);
+        }
         function agree_attend(){
             if (lecture_id > 0) {
-                document.location.href = "/attend_master_clasees/" + lecture_id;
+                document.location.href = "/attend_master_clasees/" + lecture_id + "/" + time_index;
             }
         }
         function decline_attend(){

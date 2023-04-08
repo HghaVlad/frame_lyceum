@@ -43,7 +43,7 @@ def master_classes_page(request):
     return render(request, "master-classes.html", {"master_classes": ms_classes})
 
 
-def attend_master_class(request, msclass_id):
+def attend_master_class(request, msclass_id, time_index):
     pass
 
 
