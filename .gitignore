@@ -1,3 +1,5 @@
 /main/migrations
 *.cpython-39.pyc
 .idea
+*.DS_Store
+Frame_site/settings.py
