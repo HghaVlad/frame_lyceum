@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path("", views.index_page, name="index_page"),
@@ -15,6 +17,11 @@ urlpatterns = [
     path("lectures", views.lecture_page, name="lecture_page"),
     path("attend_lectures/<int:lecture_id>", views.attend_lecture, name="attend_lecture_page"),
     path("attend_master_clasees/<int:msclass_id>/<int:time_index>", views.attend_master_class, name="attend_master_class_page"),
+    path("master-classes", views.master_classes_page, name="master_classes_page_page"),
+    path("get_ms_time", views.get_master_class_time, name="get_master_class_time"),
     path("enter_code", views.enter_code, name="enter_code_page"),
     path("get_code/<str:code>", views.get_code, name="get_code"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

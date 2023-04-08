@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth import login, authenticate, logout
 from .models import User, Lecture, Good, MasterClass, Registration, Order, ActivationCode
 
@@ -39,12 +40,41 @@ def attend_lecture(request, lecture_id):
 def master_classes_page(request):
     ms_classes = MasterClass.objects.filter(available=1).all()
     for ms_class in ms_classes:
-        ms_class.string_time = [x + " " for x in ms_class.Time]
+        ms_class.string_time = ", ".join(ms_class.Time)
     return render(request, "master-classes.html", {"master_classes": ms_classes})
 
 
+def get_master_class_time(request):
+    if request.method == "GET" and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        my_msclass = MasterClass.objects.filter(id=request.GET['ms_class_id']).first()
+        times = []
+        for i in range(len(my_msclass.Time)):
+            if my_msclass.Attends[i] < my_msclass.Places:
+                times.append(my_msclass.Time[i])
+        return JsonResponse(data={"time": times}, status=200)
+
+
 def attend_master_class(request, msclass_id, time_index):
-    pass
+    if request.user.is_authenticated:
+        my_msclass = MasterClass.objects.filter(id=msclass_id).first()
+        if my_msclass:
+            if my_msclass.Attends[time_index] < my_msclass.Places:
+                if my_msclass.check_reg(request.user, time_index):
+                    my_msclass.attend(request.user, time_index)
+                    return render(request, "success_page.html", {"message": "Успех", "comment":
+                                                                 "Вы зарегистрировались на мастер-класс"})
+                else:
+                    return render(request, "error_page.html", {"message": "Повторная регистрация",
+                                                               "comment": "Вы уже зарегистрированы на этом мастер-классе"})
+            else:
+                return render(request, "error_page.html", {"message": "Нет мест",
+                                                           "comment": "К сожалению все свободные места "
+                                                                      "на данный мастер класс закончились"})
+        else:
+            return render(request, "error_page.html", {"message": "Мастер-класс не найден"})
+
+    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
+                                                                                           "зарегистрируйтесь"})
 
 
 def shop_page(request):
@@ -59,7 +89,8 @@ def make_order(request, good_id):
             if request.user.points > my_good.Price:
                 if my_good.Quantity > my_good.Bought_col:
                     if my_good.purchase(request.user):
-                        return render(request, "success_page.html", {"message": "Успех", "comment": "Вы приобрели товар"})
+                        return render(request, "success_page.html",
+                                      {"message": "Успех", "comment": "Вы приобрели товар"})
                     else:
                         return render(request, "error_page.html", {"message": "Вы уже приобретали данный товар"})
                 else:
@@ -92,9 +123,11 @@ def reg_page(request):
         if data['password'] != data["password_repeat"]:
             return render(request, "reg.html", {"status": "Пароли должны совпадать"})
         elif len(data['password']) < 6:
-            return render(request, "reg.html", {"status": "Минимальная длина пароль 6 символов"})
+            return render(request, "reg.html", {"status": "Минимальная длина пароля 6 символов"})
         elif len(data['login']) < 4:
             return render(request, "reg.html", {"status": "Минимальная длина логина 4 символа"})
+        elif len(data['user_name']) < 6:
+            return render(request, "reg.html", {"status": "Минимальная длина имени 6 символа"})
         else:
             new_user = User()
             new_user.reg(data)
@@ -117,8 +150,12 @@ def profile_page(request):
             "master_class_registrations": master_class_registrations,
             "orders": orders,
             "user_registrations": len(lecture_registrations) + len(master_class_registrations)
-            }
+        }
         return render(request, "profile.html", data)
+
+    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
+                                        
+                                                                                           "зарегистрируйтесь"})
 
 
 def new_password(request):
@@ -132,7 +169,9 @@ def new_password(request):
             elif len(data['user_password']) < 6:
                 return render(request, "new_password.html", {"status": "Минимальная длина пароль 6 символов"})
             else:
+                user = request.user
                 request.user.change_password(data['user_password'])
+                login(request, user)
                 return render(request, "success_page.html", {"message": "Успех", "comment": "Вы изменили пароль"})
 
     return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
@@ -148,7 +187,7 @@ def cancel_attend(request, reg_id):
             return redirect("/profile")
 
         return render(request, "error_page.html", {"message": "Запись не найдена", "comment": "Вы не записаны на "
-                                                                                              "данную лекцию"})
+                                                                                              "данную лекцию/мастер-класс"})
 
     return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
                                                                                            "зарегистрируйтесь"})
@@ -177,8 +216,10 @@ def enter_code(request):
                 if my_activation_code.activate(request.user):
                     return render(request, "success_page.html", {"message": "Успех", "comment": "Вы активировали код"})
                 else:
-                    return render(request, "error_page.html", {"message": "Код не найден", "comment": "Вы уже активировали данный QR-код"})
-            return render(request, "error_page.html", {"message": "Код не найден", "comment": "Проверьте введенный QR-код"})
+                    return render(request, "error_page.html",
+                                  {"message": "Код не найден", "comment": "Вы уже активировали данный QR-код"})
+            return render(request, "error_page.html",
+                          {"message": "Код не найден", "comment": "Проверьте введенный QR-код"})
 
     return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
                                                                                            "зарегистрируйтесь"})
@@ -191,7 +232,8 @@ def get_code(request, code):
             if my_activation_code.activate(request.user):
                 return render(request, "success_page.html", {"message": "Успех", "comment": "Вы активировали код"})
             else:
-                return render(request, "error_page.html", {"message": "Код не найден", "comment": "Вы уже активировали данный код"})
+                return render(request, "error_page.html",
+                              {"message": "Код не найден", "comment": "Вы уже активировали данный код"})
         return render(request, "error_page.html", {"message": "Код не найден"})
 
     return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "

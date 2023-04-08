@@ -3,8 +3,7 @@
 {% block title %}Мастер-классы{% endblock %}
 
 {% block content %}
-
-<h2>Hello world</h2>
+{% load static %}
 <div class="container my-5" id="mycontainer">
         <h1 class="hvt text-primary ">Доступные мастер-классы</h1>
         <br>
@@ -17,22 +16,22 @@
                         <table class="table table-borderless table-sm">
                             <tr>
                               <td> <h5 class="hvt text-primary">Название:</h5></td>
-                              <td><p class="ttf fs-5">{{ ms_class.name }}</p></td>
+                              <td><p class="ttf fs-5">{{ ms_class.Name }}</p></td>
                             </tr>
                             <tr>
                               <td> <h5 class="hvt text-primary">Время:</h5></td>
-                              <td><p class="ttf fs-5">{{ ms_class.time_string }}</p></td>
+                              <td><p class="ttf fs-5">{{ ms_class.string_time }}</p></td>
                             </tr>
                             <tr>
                               <td> <h5 class="hvt text-primary">Место:</h5></td>
                               <td><p class="ttf fs-5">{{ ms_class.Location }}</p></td>
                             </tr>
                             <tr>
-                                <td> <h5 class="hvt text-primary">Свободных мест:</h5></td>
-                                <td><p class="ttf fs-5">{{ ms_class.places }}</p></td>
+                                <td> <h5 class="hvt text-primary">Всего мест:</h5></td>
+                                <td><p class="ttf fs-5">{{ ms_class.Places }}</p></td>
                               </tr>
                         </table>
-                    <p class="card-text ttf fs-4 text-primary">{{ ms_class.description }}</p>
+                    <p class="card-text ttf fs-4 text-primary">{{ ms_class.Description }}</p>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <button onclick="attend({{ ms_class.id }})" type="button" class="btn btn-primary" style="color: white;">Записаться</button>
@@ -108,9 +107,10 @@
             time_index = chosen_time;
         }
         function attend(chosen_master_class_id){
+            lecture_id = chosen_master_class_id;
             get_time(chosen_master_class_id)
             time_asker.classList.remove("d-none")
-            asker.classList.add("d-none")
+            container.classList.add("d-none")
         }
         function get_time(ms_class_id){
             $.ajax({
@@ -118,11 +118,10 @@
                 data: {"ms_class_id": ms_class_id},
                 method: "GET",
                 success: function (data){
+                    console.log(data);
                     time_row.innerHTML = ""
-                    let i = 0
-                    for (let time in data['time']){
-                        make_button(time, i)
-                        i += 1
+                    for (let i = 0; i < data['time'].length; i++){
+                        make_button(data['time'][i], i)
                     }
                 },
                 error: function (message){
@@ -133,11 +132,18 @@
             })
         }
         function make_button(time, local_time_index){
+            let col = document.createElement("div")
+            col.className = "col"
             let button = document.createElement("button")
             button.className = "btn btn-danger"
-            button.innerText = time;
+            let divtext = document.createElement("div")
+            divtext.className = "hvt";
+            divtext.style.color = "white";
             button.setAttribute("onclick", "agree_time("+local_time_index+")")
-            time_row.appendChild(button);
+            divtext.innerText = time;
+            button.appendChild(divtext);
+            col.appendChild(button)
+            time_row.appendChild(col);
         }
         function agree_attend(){
             if (lecture_id > 0) {

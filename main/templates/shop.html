@@ -59,6 +59,22 @@
   </div>
   </div>
 
+    <div class="container d-flex justify-content-center h-100 d-none" id="login_required_page">
+    <div class="card shadow">
+      <div class="card-body">
+
+        <div class="d-flex justify-content-center align-items-center mb-3">
+
+          <h3 class="card-title hvt text-danger">Вы не авторизованы</h3>
+        </div>
+        <p class="card-text fs-4 ttf">Пожалуйста зарегистрируйтесь</p>
+        <div class="d-grid gap-2 col-6 mx-auto">
+        <button onclick="close_loginr_page()" type="button" class="btn btn-outline-danger">Закрыть</button>
+    </div>
+    </div>
+  </div>
+  </div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -66,11 +82,19 @@
         var container = document.getElementById("mycontainer");
         var asker = document.getElementById("myasker");
         var fail_page = document.getElementById("fail_page");
+        var login_required_page = document.getElementById("login_required_page");
+        {% if request.user.is_authenticated  %}
         var mypoints = {{ request.user.points }}
+        {% else  %}
+        var mypoints = -1
+        {% endif  %}
         var good_id = -1
         function order(chosen_good_id, need_points){
             container.classList.add("d-none");
-            if (mypoints >= need_points){
+            if (mypoints == -1){
+                login_required_page.classList.remove("d-none");
+            }
+            else if (mypoints >= need_points){
                 asker.classList.remove("d-none");
                 good_id = chosen_good_id;
             }
@@ -92,6 +116,11 @@
 
         function close_page(){
             fail_page.classList.add("d-none");
+            container.classList.remove("d-none");
+        }
+
+        function close_loginr_page(){
+            login_required_page.classList.add("d-none")
             container.classList.remove("d-none");
         }
     </script>

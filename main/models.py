@@ -44,6 +44,7 @@ class Lecture(models.Model):
     Speaker = models.CharField(max_length=50)
     Time = models.CharField(max_length=30)
     Location = models.CharField(max_length=50)
+    Img = models.TextField()
     Places = models.IntegerField()
     Attends = models.IntegerField(default=0)
     available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
@@ -67,28 +68,25 @@ class MasterClass(models.Model):
     id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=100)
     Description = models.TextField()
-    Time = ArrayField(ArrayField(models.CharField(max_length=10, blank=True)))
+    Time = ArrayField(models.CharField(max_length=10, blank=True))
     Location = models.CharField(max_length=50)
     Places = models.IntegerField()
-    Attends = ArrayField(ArrayField(models.IntegerField(default=0)))
+    Attends = ArrayField(models.IntegerField(default=0))
     available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
     def __str__(self):
         return self.Name
 
-    def attend(self, user, time):
+    def attend(self, user, time_index):
         new_reg = Registration()
-        new_reg.new("MS", self, user, time)
+        new_reg.new("MS", self, user, self.Time[time_index])
         new_reg.save()
-        for i in range(self.Time.size()):
-            if time == self.Time[i]:
-                self.Attends[i] += 1
-                break
+        self.Attends[time_index] += 1
         self.save()
 
-    def check_reg(self, user, time):  # Is available to reg
-        return Registration.objects.filter(User=user, Lecture=self, Time=time).count() == 0 and time in self.Time
+    def check_reg(self, user, time_index):  # Is available to reg
+        return Registration.objects.filter(User=user, Master_class=self).count() == 0 and time_index < len(self.Time)  # , Time=self.Time[time_index] - if user can attend many times
 
 
 class User(AbstractUser):
@@ -105,6 +103,7 @@ class User(AbstractUser):
         self.name = user_data["user_name"]
         self.user_class = user_data["user_class"]
         self.username = user_data["login"]
+        self.set_password(user_data['password'])
         self.save()
 
     def change_password(self, new_password):
@@ -122,7 +121,10 @@ class Registration(models.Model):
     Registration_time = models.DateTimeField()
 
     def __str__(self):
-        return self.Attend_type + ": " + self.Lecture.Name + " at " + self.Time
+        if self.Attend_type == "LC":
+            return self.Attend_type + ": " + self.Lecture.Name + " at " + self.Time
+        else:
+            return self.Attend_type + ": " + self.Master_class.Name + " at " + self.Time
 
     def new(self, course_type, course, user, time):
         self.Attend_type = course_type
@@ -132,17 +134,17 @@ class Registration(models.Model):
         if course_type == "LC":
             self.Lecture = course
         else:
-            self.Masterclass = course
+            self.Master_class = course
 
     def cancel(self):
         if self.Attend_type == "LC":
             self.Lecture.Attends -= 1
             self.Lecture.save()
         else:
-            for i in range(self.Masterclass.Time.size()):
-                if self.Time == self.Masterclass.Time[i]:
-                    self.Masterclass.Attends[i] += 1
-                    self.Masterclass.save()
+            for i in range(len(self.Master_class.Time)):
+                if self.Time == self.Master_class.Time[i]:
+                    self.Master_class.Attends[i] -= 1
+                    self.Master_class.save()
                     break
         archive = ArchiveRegistration()
         archive.create(self)
@@ -164,7 +166,7 @@ class ArchiveRegistration(models.Model):
         if self.Attend_type == "LC":
             self.Lecture = data.Lecture
         else:
-            self.Masterclass = data.Masterclass
+            self.Masterclass = data.Master_class
         self.User = data.User
         self.Time = data.Time
         self.Registration_time = data.Registration_time

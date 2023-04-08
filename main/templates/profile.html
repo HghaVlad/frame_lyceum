@@ -29,13 +29,14 @@
                 </table>
               </div>
               <a href="{% url 'new_password_page' %}" type="button" class="btn btn-primary " style="color: white;"><div class="hvt">Изменить пароль</div></a>
+              <a href="{% url 'logout_page' %}" type="button" class="btn btn-primary " style="color: white;"><div class="hvt">Выйти</div></a>
 
             </div>
           </div>
     </div>
       <div class="col-md-6 col-sm-12 my-mine">
         <div class="card my_card h-100 align-items-stretch">
-            <div class="card-body d-flex">
+            <div class="card-body ">
               <div class="table-responsive">
                 <table class="table table-borderless">
                     <tr>
@@ -47,14 +48,15 @@
                       <td><p class="ttf fs-5">{{ user_registrations }}</p></td>
                     </tr>
                     <tr>
-                      <td> <h4 class="hvt text-primary">Выиграно призов:</h4></td>
+                      <td> <h4 class="hvt text-primary">Получено призов:</h4></td>
                       <td><p class="ttf fs-5">{{ request.user.won_prises }}</p></td>
                     </tr>
                 </table>
               </div>
-
+              <a href="{% url 'enter_code_page' %}" type="button" class="btn btn-primary " style="color: white;"><div class="hvt">Активировать код</div></a>
             </div>
           </div>
+
   </div>
 </div>
 </div>
@@ -64,10 +66,11 @@
 <h1 class="hvt text-primary ">Мои записи</h1>
 <br>
 
-<div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3">
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 g-3">
     {% for registration in lecture_registrations %}
       <div class="col">
-        <div class="card shadow-sm align-items-stretch h-100 my_card">
+        <div class="card shadow-sm align-items-stretch h-100">
+            <img src='media/{{ registration.Lecture.Img }}' class="card-img-top" style="height: 400px;">
           <div class="card-body ">
             <p class="card-text ttf fs-2 text-primary">{{ registration.Lecture.Name }}</p>
             <p class="card-text ttf fs-5 text-primary">{{ registration.Time }} </p>
@@ -80,7 +83,7 @@
       </div>
     {% endfor %}
 </div>
-
+<br>
 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 g-3">
     {% for registration in master_class_registrations %}
       <div class="col">
