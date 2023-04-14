@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.contrib.auth import login, authenticate, logout
 from .models import User, Lecture, Good, MasterClass, Registration, Order, ActivationCode
 
+unauthenticated = {"message": "Вы не авторизованы", "comment": "Пожалуйста зарегистрируйтесь"}
+
 
 # Create your views here.
 def index_page(request):
@@ -22,7 +24,7 @@ def attend_lecture(request, lecture_id):
                 if my_lecture.check_reg(request.user):
                     my_lecture.attend(request.user)
                     return render(request, "success_page.html", {"message": "Успех", "comment":
-                        "Вы зарегистрировались на лекцию"})
+                                                                 "Вы зарегистрировались на лекцию"})
                 else:
                     return render(request, "error_page.html", {"message": "Повторная регистрация",
                                                                "comment": "Вы уже зарегистрированы на этой лекции"})
@@ -33,8 +35,7 @@ def attend_lecture(request, lecture_id):
         else:
             return render(request, "error_page.html", {"message": "Лекция не найдена"})
 
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                                                                           "зарегистрируйтесь"})
+    return render(request, "error_page.html", unauthenticated)
 
 
 def master_classes_page(request):
@@ -65,7 +66,8 @@ def attend_master_class(request, msclass_id, time_index):
                                                                  "Вы зарегистрировались на мастер-класс"})
                 else:
                     return render(request, "error_page.html", {"message": "Повторная регистрация",
-                                                               "comment": "Вы уже зарегистрированы на этом мастер-классе"})
+                                                               "comment": "Вы уже зарегистрированы на этом "
+                                                                          "мастер-классе"})
             else:
                 return render(request, "error_page.html", {"message": "Нет мест",
                                                            "comment": "К сожалению все свободные места "
@@ -73,8 +75,7 @@ def attend_master_class(request, msclass_id, time_index):
         else:
             return render(request, "error_page.html", {"message": "Мастер-класс не найден"})
 
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                                                                           "зарегистрируйтесь"})
+    return render(request, "error_page.html", unauthenticated)
 
 
 def shop_page(request):
@@ -99,8 +100,8 @@ def make_order(request, good_id):
                 return render(request, "error_page.html", {"message": "Недостаточно средств"})
         else:
             return render(request, "error_page.html", {"message": "Товар не найден"})
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                                                                           "зарегистрируйтесь"})
+
+    return render(request, "error_page.html", unauthenticated)
 
 
 def login_page(request):
@@ -153,9 +154,7 @@ def profile_page(request):
         }
         return render(request, "profile.html", data)
 
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                        
-                                                                                           "зарегистрируйтесь"})
+    return render(request, "error_page.html", unauthenticated)
 
 
 def new_password(request):
@@ -174,8 +173,7 @@ def new_password(request):
                 login(request, user)
                 return render(request, "success_page.html", {"message": "Успех", "comment": "Вы изменили пароль"})
 
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                                                                           "зарегистрируйтесь"})
+    return render(request, "error_page.html", unauthenticated)
 
 
 def cancel_attend(request, reg_id):
@@ -187,10 +185,10 @@ def cancel_attend(request, reg_id):
             return redirect("/profile")
 
         return render(request, "error_page.html", {"message": "Запись не найдена", "comment": "Вы не записаны на "
-                                                                                              "данную лекцию/мастер-класс"})
+                                                                                              "данную "
+                                                                                              "лекцию/мастер-класс"})
 
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                                                                           "зарегистрируйтесь"})
+    return render(request, "error_page.html", unauthenticated)
 
 
 def show_code(request, order_id):
@@ -201,8 +199,7 @@ def show_code(request, order_id):
         else:
             return render(request, "error_page.html", {"message": "Приз не найден"})
 
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                                                                           "зарегистрируйтесь"})
+    return render(request, "error_page.html", unauthenticated)
 
 
 def enter_code(request):
@@ -221,8 +218,7 @@ def enter_code(request):
             return render(request, "error_page.html",
                           {"message": "Код не найден", "comment": "Проверьте введенный QR-код"})
 
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                                                                           "зарегистрируйтесь"})
+    return render(request, "error_page.html", unauthenticated)
 
 
 def get_code(request, code):
@@ -236,5 +232,13 @@ def get_code(request, code):
                               {"message": "Код не найден", "comment": "Вы уже активировали данный код"})
         return render(request, "error_page.html", {"message": "Код не найден"})
 
-    return render(request, "error_page.html", {"message": "Вы не авторизованы", "comment": "Пожалуйста "
-                                                                                           "зарегистрируйтесь"})
+    return render(request, "error_page.html", unauthenticated)
+
+
+def admin_codepage(request):
+    if request.user.is_authenticated:
+        if request.user.Role == "Admin":
+            codes = ActivationCode.objects.all()
+            return render(request, "admin_code_page.html", {"codes": codes})
+
+    return render(request, "error_page.html", unauthenticated)

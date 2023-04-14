@@ -117,6 +117,7 @@ class Registration(models.Model):
     Lecture = models.ForeignKey(Lecture, null=True, blank=True, on_delete=models.CASCADE)
     Master_class = models.ForeignKey(MasterClass, null=True, blank=True, on_delete=models.CASCADE)
     User = models.ForeignKey(User, on_delete=models.CASCADE)
+    Role = models.CharField(max_length=20, default="User")
     Time = models.CharField(max_length=20)
     Registration_time = models.DateTimeField()
 
@@ -237,4 +238,3 @@ class Activation(models.Model):
         self.User = user
         self.Amount = code.Amount
         self.Date = datetime.now()
-
