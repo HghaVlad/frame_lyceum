@@ -1,0 +1,99 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}QR-Коды{% endblock %}
+
+{% block content %}
+
+ <div class="container">
+    <h2 class="hvt">Товары</h2>
+    <br>
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+          <tr class="hvt">
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Куплено</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody class="ttf">
+            {% for good in goods %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                        {{ good.Name }}
+                    </div>
+                  </div>
+                </td>
+                <td>
+                 {{ good.Description }}
+                </td>
+                <td>
+                    {{ good.Price }}
+                </td>
+                <td>
+                   {{ good.Quantity }}
+                </td>
+                <td>
+                    {{ good.Bought_col }}
+                </td>
+                <td>
+                    {% if good.Available == 1 %}
+                        <a href="{% url 'admin_shop_switch' good_id=good.id %}" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
+                    {% else %}
+                        <a href="{% url 'admin_shop_switch' good_id=good.id %}" type="button" class="btn btn-success" style="color: white;">Включить</a>
+                    {% endif %}
+                </td>
+              </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    <br>
+    <h2 class="hvt">Покупки</h2>
+    <br>
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+          <tr class="hvt">
+            <th>Название товара</th>
+            <th>Покупатель</th>
+            <th>КОД</th>
+            <th>Время покупки</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody class="ttf">
+            {% for order in orders %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                        {{ order.Good.Name }}
+                    </div>
+                  </div>
+                </td>
+                <td>
+                 {{ order.User.Name }}
+                </td>
+                <td>
+                    {{ order.Code }}
+                </td>
+                <td>
+                   {{ order.Made_date }}
+                </td>
+                <td>
+                    {% if good.Status == 0 %}
+                        <a href="{% url 'admin_code_switch' code=code.Code %}" type="button" class="btn btn-danger" style="color: white;">Отдать товар</a>
+                    {% else %}
+                        <p class="fw-bold mb-1">Товар получен</p>
+                    {% endif %}
+                </td>
+              </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

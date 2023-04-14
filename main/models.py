@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
-from .utils import code_generator
+from .utils import code_generator, qrcode_generate
 # Create your models here.
 
 
@@ -15,7 +15,7 @@ class Good(models.Model):
     Price = models.IntegerField()
     Quantity = models.IntegerField()  # Количество
     Bought_col = models.IntegerField(default=0)
-    available = models.IntegerField()  # Доступно пользователю или нет 1/0
+    Available = models.IntegerField()  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
     def __str__(self):
@@ -36,6 +36,13 @@ class Good(models.Model):
 
     def check_user(self, user):
         return Order.objects.filter(User=user, Good=self).count() == 0
+
+    def change_status(self):
+        if self.Available == 0:
+            self.Available = 1
+        else:
+            self.Available = 0
+        self.save()
 
 
 class Lecture(models.Model):
@@ -95,6 +102,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     points = models.IntegerField(default=0)
     won_prises = models.IntegerField(default=0)
+    Role = models.CharField(max_length=20, default="User")
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', "user_class"]
@@ -117,7 +125,6 @@ class Registration(models.Model):
     Lecture = models.ForeignKey(Lecture, null=True, blank=True, on_delete=models.CASCADE)
     Master_class = models.ForeignKey(MasterClass, null=True, blank=True, on_delete=models.CASCADE)
     User = models.ForeignKey(User, on_delete=models.CASCADE)
-    Role = models.CharField(max_length=20, default="User")
     Time = models.CharField(max_length=20)
     Registration_time = models.DateTimeField()
 
@@ -195,12 +202,18 @@ class Order(models.Model):
         self.Made_date = datetime.now()
         self.save()
 
+    def complete(self):
+        self.Status = 1
+        self.Complete_Date = datetime.now()
+        self.save()
+
 
 class ActivationCode(models.Model):
     id = models.AutoField(primary_key=True)
     Amount = models.IntegerField()
     Used = models.IntegerField(default=0)
     Code = models.CharField(max_length=10)
+    Img = models.TextField()
     Available = models.IntegerField(default=1)
     Made_date = models.DateTimeField()
 
@@ -208,6 +221,8 @@ class ActivationCode(models.Model):
         self.Amount = amount
         self.Made_date = datetime.now()
         self.Code = code_generator(8)
+        self.Img = "/codes/"+self.Code+".png"
+        qrcode_generate("http://127.0.0.1:8000/get_code/"+self.Code, self.Code+".png")
 
     def activate(self, user):
         if self.check_user(user):
@@ -224,6 +239,13 @@ class ActivationCode(models.Model):
 
     def check_user(self, user):
         return Activation.objects.filter(Code=self, User=user).count() == 0
+
+    def change_status(self):
+        if self.Available == 0:
+            self.Available = 1
+        else:
+            self.Available = 0
+        self.save()
 
 
 class Activation(models.Model):

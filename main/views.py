@@ -12,7 +12,7 @@ def index_page(request):
 
 
 def lecture_page(request):
-    lectures = Lecture.objects.filter(available=1).all()
+    lectures = Lecture.objects.filter(Available=1).all()
     return render(request, "lectures.html", {"lectures": lectures})
 
 
@@ -39,7 +39,7 @@ def attend_lecture(request, lecture_id):
 
 
 def master_classes_page(request):
-    ms_classes = MasterClass.objects.filter(available=1).all()
+    ms_classes = MasterClass.objects.filter(Available=1).all()
     for ms_class in ms_classes:
         ms_class.string_time = ", ".join(ms_class.Time)
     return render(request, "master-classes.html", {"master_classes": ms_classes})
@@ -79,7 +79,7 @@ def attend_master_class(request, msclass_id, time_index):
 
 
 def shop_page(request):
-    goods = Good.objects.filter(available=1)
+    goods = Good.objects.filter(Available=1)
     return render(request, "shop.html", {"goods": goods})
 
 
@@ -235,10 +235,59 @@ def get_code(request, code):
     return render(request, "error_page.html", unauthenticated)
 
 
-def admin_codepage(request):
+def admin_code_page(request):
     if request.user.is_authenticated:
-        if request.user.Role == "Admin":
+        if request.user.Role in ["Admin", 'Manager']:
             codes = ActivationCode.objects.all()
-            return render(request, "admin_code_page.html", {"codes": codes})
+            return render(request, "admin_codes.html", {"codes": codes})
+
+    return render(request, "error_page.html", unauthenticated)
+
+
+def admin_code_switch(request, code_name):  # Change Available
+    if request.user.is_authenticated:
+        if request.user.Role in ["Admin", 'Manager']:
+            code = ActivationCode.objects.filter(Code=code_name).first()
+            if code:
+                code.change_status()
+                return redirect(admin_code_page)
+            else:
+                return render(request, "error_page.html", {"message": "Код не найден"})
+
+    return render(request, "error_page.html", unauthenticated)
+
+
+def admin_shop_page(request):
+    if request.user.is_authenticated:
+        if request.user.Role in ["Admin", 'Manager']:
+            goods = Good.objects.all()
+            orders = Order.objects.all()
+            return render(request, "admin_shop.html", {"goods": goods, "orders": orders})
+
+    return render(request, "error_page.html", unauthenticated)
+
+
+def admin_shop_swtich(request, good_id):
+    if request.user.is_authenticated:
+        if request.user.Role in ["Admin", 'Manager']:
+            good = Good.objects.filter(id=good_id).first()
+            if good:
+                good.change_status()
+                return redirect(admin_shop_page)
+            else:
+                return render(request, "error_page.html", {"message": "Товар не найден"})
+
+    return render(request, "error_page.html", unauthenticated)
+
+
+def admin_give_good(request, order_id):
+    if request.user.is_authenticated:
+        if request.user.Role in ["Admin", 'Manager']:
+            order = Order.objects.filter(id=order_id).first()
+            if order:
+                order.complete()
+                return redirect(admin_shop_page)
+            else:
+                return render(request, "error_page.html", {"message": "Заказ не найден"})
 
     return render(request, "error_page.html", unauthenticated)

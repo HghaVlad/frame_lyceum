@@ -1,0 +1,42 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}QR-Коды{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row row-cols-3 row-cols-sm-1 row-cols-md-3 g-5">
+        {% for code in codes %}
+         <div class="col">
+            <div class="card shadow-sm align-items-stretch h-100 my_card_red">
+                <img src='media/{{ code.Img }}' class="card-img-top" >
+              <div class="card-body ">
+                <div class="table-responsive ">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Код:</h5></td>
+                          <td><p class="ttf fs-5">{{ code.Code }}</p></td>
+                        </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Дает баллов:</h5></td>
+                          <td><p class="ttf fs-5">{{ code.Amount }}</p></td>
+                        </tr>
+                    </table>
+                <div class="align-items-center">
+                    <a href="media/{{ code.Img }}" type="button" class="btn btn-danger" style="color: white;">Скачать изображение</a>
+                    {% if code.Available == 1 %}
+                        <a href="{% url 'admin_code_switch' code_name=code.Code %}" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
+                    {% else %}
+                        <a href="{% url 'admin_code_switch' code_name=code.Code %}" type="button" class="btn btn-danger" style="color: white;">Включить</a>
+                    {% endif %}
+                </div>
+              </div>
+              </div>
+            </div>
+         </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}

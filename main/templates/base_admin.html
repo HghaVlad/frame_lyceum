@@ -18,22 +18,17 @@
         <a href="/" class="navbar-left"><img width="120px" alt="Frame" src="{% static 'img/fine_logo.svg' %}"></a>
       </div>
 
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/lectures" class="nav-link px-2 hvt">Лекции</a></li>
-        <li><a href="/master-classes" class="nav-link px-2 hvt">Мастер-классы</a></li>
-        <li><a href="/shop" class="nav-link px-2 hvt">Магазин</a></li>
+     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/admin_codes" class="nav-link px-2 hvt text-danger">QR-коды</a></li>
+        <li><a href="/admin_shop" class="nav-link px-2 hvt text-danger">Магазин</a></li>
+        <li><a href="/admin_courses" class="nav-link px-2 hvt text-danger">Курсы</a></li>
+         {% if request.user.Role == 'Admin' %}
+        <li><a href="/admin_users" class="nav-link px-2 hvt text-danger">Пользователи</a></li>
+         {% endif %}
       </ul>
 
       <div class="col-md-4 text-end">
-          {% if request.user.is_authenticated %}
-            <a href="/profile" class="btn btn-outline-primary my-mine2 my-2"><div class="hvt">Мой профиль</div></a>
-              {% if request.user.Role in 'Admin,Manager' %}
-                 <a href="/admin_codes" class="btn btn-outline-danger my-mine2 my-2"><div class="hvt">Админ панель</div></a>
-              {% endif %}
-          {% else %}
-            <a href="/login" class="btn btn-outline-primary my-mine2 my-2"><div class="hvt">Авторизация</div></a>
-            <a href="/reg" class="btn btn-outline-primary"><div class="hvt">Регистрация</div></a>
-          {% endif %}
+           <a href="/" class="btn btn-outline-danger my-mine2 my-2"><div class="hvt">Главный сайт</div></a>
       </div>
     </header>
   </div>
@@ -47,27 +42,23 @@
               <li class="nav-item">
                   <a href="/" class="navbar-left"><img alt="Frame" width="120px" src="{% static 'img/fine_logo.svg' %}"></a>
                 </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/lectures"><div class="hvt">Лекции</div></a>
+             <li class="nav-item">
+              <a class="nav-link" href="/admin_codes"><div class="hvt">QR-коды</div></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/master-classes"><div class="hvt">Мастер-классы</div></a>
+              <a class="nav-link" href="/admin_shop"><div class="hvt">Магазин</div></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/shop"><div class="hvt">Магазин</div></a>
+              <a class="nav-link" href="/admin_courses"><div class="hvt">Курсы</div></a>
             </li>
-              {% if request.user.is_authenticated %}
-                  <li class="nav-item">
-                    <a class="nav-link" href="/profile"><div class="hvt">Мой профиль</div></a>
-                  </li>
-              {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="/login"><div class="hvt">Авторизация</div></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/reg"><div class="hvt">Регистрация</div></a>
-            </li>
+               {% if request.user.Role == 'Admin' %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin_users"><div class="hvt">Пользователи</div></a>
+                </li>
               {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/"><div class="hvt">Главный сайт</div></a>
+            </li>
           </ul>
         </div>
       </div>
