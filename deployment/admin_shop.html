@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/custom.css" >   
+    <title>Магазин</title>
+</head>
+<body> 
+    
+
+  <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-2 mb-2 mb-md-0">
+        <a href="/" class="navbar-left"><img width="120px" src="fine_logo.svg"></a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="admin_codes.html" class="nav-link px-2 hvt text-danger">QR-коды</a></li>
+        <li><a href="admin_shop.html" class="nav-link px-2 hvt text-danger">Магазин</a></li>
+        <li><a href="admin_courses.html" class="nav-link px-2 hvt text-danger">Курсы</a></li>
+      </ul>
+
+      <div class="col-md-4 text-end">
+        <a href="admin_login.html" class="btn btn-outline-danger my-mine2 my-2"><div class="hvt">Авторизация</div></a>
+      </div>
+    </header>
+  </div>
+  <nav class="navbar navbar-expand-md navbar-light bg-light d-md-none">
+      <div class="container-fluid">
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobileMenu" aria-controls="navbarMobileMenu" aria-expanded="false" aria-label="Меню">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMobileMenu">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+              <li class="nav-item">
+                  <a href="/" class="navbar-left"><img width="120px" src="fine_logo.svg"></a>
+                </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin_codes.html"><div class="hvt">QR-коды</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin_shop.html"><div class="hvt">Магазин</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin_courses.html"><div class="hvt">Курсы</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin_login.html"><div class="hvt">Авторизация</div></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="container">
+        <h2 class="hvt">Товары</h2>
+        <br>
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+              <tr class="hvt">
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Куплено</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody class="ttf">
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                        Lecture_name                
+                    </div>
+                  </div>
+                </td>
+                <td>
+                 Супер бупер товар
+                </td>
+                <td>
+                    150
+                </td>
+                <td>
+                   10
+                </td>
+                <td>
+                    4
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-success" >Включить</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                        Lecture_name                
+                    </div>
+                  </div>
+                </td>
+                <td>
+                 Супер бупер товар
+                </td>
+                <td>
+                    150
+                </td>
+                <td>
+                   10
+                </td>
+                <td>
+                    4
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-success" >Включить</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                        Lecture_name                
+                    </div>
+                  </div>
+                </td>
+                <td>
+                 Супер бупер товар
+                </td>
+                <td>
+                    150
+                </td>
+                <td>
+                   10
+                </td>
+                <td>
+                    4
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" >Выключить</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <div class="container">
+        <br>
+        <h2 class="hvt">Покупки</h2>
+        <br>
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+              <tr class="hvt">
+                <th>Название товара</th>
+                <th>Покупатель</th>
+                <th>КОД</th>
+                <th>Время покупки</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody class="ttf">
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                        Lecture_name
+                    </div>
+                  </div>
+                </td>
+                <td>
+                    <p class="mb-1">Иванов Иван</p>
+                    <p class="text-muted mb-0">9ФМ100</p>
+                </td>
+                <td>
+                    YTXF2
+                </td>
+                <td>
+                   15:40
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-success" >Отдать товар</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                        Lecture_name
+                    </div>
+                  </div>
+                </td>
+                <td>
+                    <p class="mb-1">Иванов Иван</p>
+                    <p class="text-muted mb-0">9ФМ100</p>
+                </td>
+                <td>
+                    YTXF2
+                </td>
+                <td>
+                   16:10
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-success" >Отдать товар</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                        Lecture_name
+                    </div>
+                  </div>
+                </td>
+                <td>
+                    <p class="mb-1">Иванов Иван</p>
+                    <p class="text-muted mb-0">9ФМ100</p>
+                </td>
+                <td>
+                    YTXF2
+                </td>
+                <td>
+                   9:15
+                </td>
+                <td>
+                    <p class="fw-bold mb-1">Товар получен</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+</html>
