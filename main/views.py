@@ -87,7 +87,7 @@ def make_order(request, good_id):
     if request.user.is_authenticated:
         my_good = Good.objects.filter(id=good_id).first()
         if my_good:
-            if request.user.points > my_good.Price:
+            if request.user.points >= my_good.Price:
                 if my_good.Quantity > my_good.Bought_col:
                     if my_good.purchase(request.user):
                         return render(request, "success_page.html",
@@ -257,6 +257,24 @@ def admin_code_switch(request, code_name):  # Change Available
     return render(request, "error_page.html", unauthenticated)
 
 
+def admin_new_code(request):
+    if request.user.is_authenticated:
+        if request.user.Role in ["Admin", 'Manager']:
+            if request.method == "GET":
+                return render(request, "admin_new_code.html")
+            else:
+                new_code = ActivationCode()
+                if request.POST["code_points"].isdigit():
+                    new_code.make(request.POST['code_points'])
+                    new_code.save()
+                    return redirect(admin_code_page)
+
+                return render(request, "error_page.html", {"message": "Введите количество баллов целым числом"})
+
+    return render(request, "error_page.html", unauthenticated)
+
+
+
 def admin_shop_page(request):
     if request.user.is_authenticated:
         if request.user.Role in ["Admin", 'Manager']:
@@ -291,3 +309,4 @@ def admin_give_good(request, order_id):
                 return render(request, "error_page.html", {"message": "Заказ не найден"})
 
     return render(request, "error_page.html", unauthenticated)
+

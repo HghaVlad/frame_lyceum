@@ -1,0 +1,32 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Создать новый код{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid vh-100">
+    <div>
+        <div class="rounded d-flex justify-content-center">
+            <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+                <div class="text-center">
+                    <h1 class="text-danger">Новый код</h1>
+                </div>
+                <form action="" method="POST">
+                    <div class="p-4">
+                        <br>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-danger"><i class="bi bi-key-fill text-white"></i></span>
+                            <input name="code_points" type="number" class="form-control ttf" placeholder="Введите количество баллов">
+                        </div>
+                        <button  class="btn btn-danger text-center mt-2" type="submit">
+                             <div class="hvt" style="color: white;">Создать код</div>
+                        </button>
+                    </div>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

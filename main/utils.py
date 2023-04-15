@@ -1,6 +1,7 @@
 import string
 import random
 import qrcode
+from django.conf import settings
 
 
 def code_generator(length: int):
@@ -10,9 +11,7 @@ def code_generator(length: int):
 
 def qrcode_generate(link, img_path):
     img = qrcode.make(link)
-    file = open("..\media\codes\\"+img_path, "wb")
+    file = open(settings.MEDIA_ROOT / "codes" / img_path, "wb")
     file.close()
-    img.save("..\media\codes\\"+img_path)
+    img.save(str(settings.MEDIA_ROOT / "codes" / img_path))
 
-
-#qrcode_generate("http://127.0.0.1:8000/get_code/"+"XFS5DSH", "XFS5DSH"+".png")

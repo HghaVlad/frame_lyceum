@@ -54,7 +54,7 @@ class Lecture(models.Model):
     Img = models.TextField()
     Places = models.IntegerField()
     Attends = models.IntegerField(default=0)
-    available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
+    Available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
     def __str__(self):
@@ -79,7 +79,7 @@ class MasterClass(models.Model):
     Location = models.CharField(max_length=50)
     Places = models.IntegerField()
     Attends = ArrayField(models.IntegerField(default=0))
-    available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
+    Available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
     def __str__(self):

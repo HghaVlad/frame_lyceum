@@ -21,6 +21,10 @@
                           <td> <h5 class="hvt text-danger">Дает баллов:</h5></td>
                           <td><p class="ttf fs-5">{{ code.Amount }}</p></td>
                         </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Активаций:</h5></td>
+                          <td><p class="ttf fs-5">{{ code.Used }}</p></td>
+                        </tr>
                     </table>
                 <div class="align-items-center">
                     <a href="media/{{ code.Img }}" type="button" class="btn btn-danger" style="color: white;">Скачать изображение</a>
@@ -37,6 +41,11 @@
         {% endfor %}
 
     </div>
+    <br>
+    <a href="{% url 'admin_new_code' %}" class="btn btn-danger text-center mt-2" type="submit">
+         <div class="hvt text-center" style="color: white;">Создать код</div>
+    </a>
 </div>
+
 
 {% endblock %}

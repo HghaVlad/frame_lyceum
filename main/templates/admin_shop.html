@@ -1,6 +1,6 @@
 {% extends 'base_admin.html' %}
 
-{% block title %}QR-Коды{% endblock %}
+{% block title %}Магазин{% endblock %}
 
 {% block content %}
 
@@ -84,8 +84,8 @@
                    {{ order.Made_date }}
                 </td>
                 <td>
-                    {% if good.Status == 0 %}
-                        <a href="{% url 'admin_code_switch' code=code.Code %}" type="button" class="btn btn-danger" style="color: white;">Отдать товар</a>
+                    {% if order.Status == 0 %}
+                        <a href="{% url 'admin_give_good' order_id=order.id %}" type="button" class="btn btn-danger" style="color: white;">Отдать товар</a>
                     {% else %}
                         <p class="fw-bold mb-1">Товар получен</p>
                     {% endif %}
