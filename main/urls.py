@@ -21,12 +21,6 @@ urlpatterns = [
     path("get_ms_time", views.get_master_class_time, name="get_master_class_time"),
     path("enter_code", views.enter_code, name="enter_code_page"),
     path("get_code/<str:code>", views.get_code, name="get_code"),
-    path("admin_codes", views.admin_code_page, name="admin_code_page"),
-    path("admin_code_change/<str:code_name>", views.admin_code_switch, name="admin_code_switch"),
-    path("admin_shop", views.admin_shop_page, name="admin_shop_page"),
-    path("admin_shop_switch/<int:good_id>", views.admin_shop_swtich, name="admin_shop_switch"),
-    path("admin_give_good/<int:order_id>", views.admin_give_good, name="admin_give_good"),
-    path("admin_new_code", views.admin_new_code, name="admin_new_code"),
 ]
 
 if settings.DEBUG:

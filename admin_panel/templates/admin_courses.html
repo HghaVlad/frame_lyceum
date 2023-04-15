@@ -1,0 +1,111 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Курсы{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <h2 class="hvt">Лекции</h2>
+    <br>
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+          <tr class="hvt">
+            <th>Название</th>
+            <th>Время</th>
+            <th>Локация</th>
+            <th>Записей</th>
+            <th>Всего мест</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody class="ttf">
+          {% for lecture in lectures %}
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <div>
+                  <p class="fw-bold mb-1">{{ lecture.Name }}</p>
+                  <p class="text-muted mb-0">{{ lecture.Speaker }}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+             {{ lecture.Time }}
+            </td>
+            <td>
+                {{ lecture.Location }}
+            </td>
+            <td>
+                {{ lecture.Attends }}
+            </td>
+            <td>
+                {{ lecture.Places }}
+            </td>
+            <td>
+                {% if lecture.Available == 1 %}
+                    <a href="{% url 'admin_courses_switch' course_type='LC' course_id=lecture.id %}" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
+                {% else %}
+                    <a href="{% url 'admin_courses_switch' course_type='LC' course_id=lecture.id %}" type="button" class="btn btn-success" style="color: white;">Включить</a>
+                {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+
+
+        </tbody>
+      </table>
+</div>
+
+<div class="container">
+    <br>
+    <h2 class="hvt">Мастер-классы</h2>
+    <br>
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+          <tr class="hvt">
+            <th>Название</th>
+            <th>Время</th>
+            <th>Локация</th>
+            <th>Записей</th>
+            <th>Всего мест</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody class="ttf">
+          {% for msclass in master_classes %}
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <div>
+                  <p class="fw-bold mb-1">{{ msclass.Name }}</p>
+                  <p class="text-muted mb-0">{{ msclass.Description }}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+             {{ ms_class.string_time }}
+            </td>
+            <td>
+                {{ msclass.Location }}
+            </td>
+            <td>
+               {{ msclass.Attends }}
+            </td>
+            <td>
+                {{ msclass.Places }}
+            </td>
+            <td>
+                {% if msclass.Available == 1 %}
+                    <a href="{% url 'admin_courses_switch' course_type='MC' course_id=msclass.id %}" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
+                {% else %}
+                    <a href="{% url 'admin_courses_switch' course_type='MC' course_id=msclass.id %}" type="button" class="btn btn-success" style="color: white;">Включить</a>
+                {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

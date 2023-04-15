@@ -37,13 +37,6 @@ class Good(models.Model):
     def check_user(self, user):
         return Order.objects.filter(User=user, Good=self).count() == 0
 
-    def change_status(self):
-        if self.Available == 0:
-            self.Available = 1
-        else:
-            self.Available = 0
-        self.save()
-
 
 class Lecture(models.Model):
     id = models.AutoField(primary_key=True)
@@ -112,10 +105,6 @@ class User(AbstractUser):
         self.user_class = user_data["user_class"]
         self.username = user_data["login"]
         self.set_password(user_data['password'])
-        self.save()
-
-    def change_password(self, new_password):
-        self.set_password(new_password)
         self.save()
 
 
@@ -240,13 +229,6 @@ class ActivationCode(models.Model):
     def check_user(self, user):
         return Activation.objects.filter(Code=self, User=user).count() == 0
 
-    def change_status(self):
-        if self.Available == 0:
-            self.Available = 1
-        else:
-            self.Available = 0
-        self.save()
-
 
 class Activation(models.Model):
     id = models.AutoField(primary_key=True)
@@ -260,3 +242,11 @@ class Activation(models.Model):
         self.User = user
         self.Amount = code.Amount
         self.Date = datetime.now()
+
+
+def change_status(model):
+    if model.Available == 0:
+        model.Available = 1
+    else:
+        model.Available = 0
+    model.save()
