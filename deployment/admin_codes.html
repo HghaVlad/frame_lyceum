@@ -61,7 +61,6 @@
 
     <div class="container">
         <div class="row row-cols-3 row-cols-sm-1 row-cols-md-3 g-5">
-            
              <div class="col">
                 <div class="card shadow-sm align-items-stretch h-100 my_card_red">
                     <img src='qr-code.png' class="card-img-top" >
@@ -76,12 +75,15 @@
                               <td> <h5 class="hvt text-danger">Дает баллов:</h5></td>
                               <td><p class="ttf fs-5">250</p></td>
                             </tr>
+                            <tr>
+                              <td> <h5 class="hvt text-danger">Активаций:</h5></td>
+                              <td><p class="ttf fs-5">5</p></td>
+                            </tr>
                         </table>
                     <div class="align-items-center">
-                        <a href="download_code?" type="button" class="btn btn-danger" style="color: white;">Скачать изображение</a>
+                        <a href="qr-code.png" type="button" class="btn btn-danger" style="color: white;">Скачать изображение</a>
                         <a href="turnoff" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
                     </div>
-
                   </div>
                   </div>
                 </div>
@@ -100,12 +102,15 @@
                             <td> <h5 class="hvt text-danger">Дает баллов:</h5></td>
                             <td><p class="ttf fs-5">250</p></td>
                           </tr>
+                          <tr>
+                            <td> <h5 class="hvt text-danger">Активаций:</h5></td>
+                            <td><p class="ttf fs-5">5</p></td>
+                          </tr>
                       </table>
                   <div class="align-items-center">
-                      <button onclick="attend({{ lecture.id }})" type="button" class="btn btn-danger" style="color: white;">Скачать изображение</button>
-                      <button onclick="attend({{ lecture.id }})" type="button" class="btn btn-danger" style="color: white;">Включить</button>
+                      <a href="qr-code.png" type="button" class="btn btn-danger" style="color: white;">Скачать изображение</a>
+                      <a href="turnoff" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
                   </div>
-
                 </div>
                 </div>
               </div>
@@ -124,18 +129,21 @@
                           <td> <h5 class="hvt text-danger">Дает баллов:</h5></td>
                           <td><p class="ttf fs-5">250</p></td>
                         </tr>
+                        <tr>
+                          <td> <h5 class="hvt text-danger">Активаций:</h5></td>
+                          <td><p class="ttf fs-5">5</p></td>
+                        </tr>
                     </table>
                 <div class="align-items-center">
-                    <button onclick="attend({{ lecture.id }})" type="button" class="btn btn-danger" style="color: white;">Скачать изображение</button>
-                    <button onclick="attend({{ lecture.id }})" type="button" class="btn btn-danger" style="color: white;">Отключить</button>
+                    <a href="qr-code.png" type="button" class="btn btn-danger" style="color: white;">Скачать изображение</a>
+                    <a href="turnoff" type="button" class="btn btn-success" style="color: white;">Включить</a>
                 </div>
-
               </div>
               </div>
             </div>
          </div>
+         </div>
         </div>
-    </div>
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
