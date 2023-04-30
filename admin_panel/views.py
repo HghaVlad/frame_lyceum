@@ -86,7 +86,7 @@ def admin_users(request):
             users = User.objects.all()
             for user in users:
                 lectures = [registration.Lecture for registration in Registration.objects.filter(Attend_type="LC", User=request.user)]
-                master_classes = [registration.Master_class for registration in Registration.objects.filter(Attend_type="MC", User=request.user)]
+                master_classes = [registration.Master_class for registration in Registration.objects.filter(Attend_type="MS", User=request.user)]
                 user.lectures = lectures
                 user.master_classes = master_classes
             return render(request, "admin_users.html", {"users": users})
@@ -110,7 +110,7 @@ def admin_courses_switch(request, course_type, course_id):
                 if lecture:
                     change_status(lecture)
                     return redirect(admin_courses)
-            elif course_type == "MC":
+            elif course_type == "MS":
                 master_class = MasterClass.objects.filter(id=course_id).first()
                 if master_class:
                     change_status(master_class)

@@ -4,7 +4,7 @@
 
 
 {% block content %}
-
+{% load math %}
 <div class="container">
     <h2 class="hvt">Лекции</h2>
     <br>
@@ -84,22 +84,28 @@
               </div>
             </td>
             <td>
-             {{ ms_class.string_time }}
+            {% for time in msclass.Time %}
+                <p class="" style="display: inline;"> {{ time }}</p>
+                <br>
+                {% endfor %}
             </td>
             <td>
                 {{ msclass.Location }}
             </td>
             <td>
-               {{ msclass.Attends }}
+               {% for time, attends in msclass.Time|make_zip:msclass.Attends %}
+                   <p class="fw-bold mb-1" style="display: inline;">{{ time }} -</p><p style="display: inline;"> {{ attends }}</p>
+                   <br>
+                {% endfor %}
             </td>
             <td>
                 {{ msclass.Places }}
             </td>
             <td>
                 {% if msclass.Available == 1 %}
-                    <a href="{% url 'admin_courses_switch' course_type='MC' course_id=msclass.id %}" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
+                    <a href="{% url 'admin_courses_switch' course_type='MS' course_id=msclass.id %}" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
                 {% else %}
-                    <a href="{% url 'admin_courses_switch' course_type='MC' course_id=msclass.id %}" type="button" class="btn btn-success" style="color: white;">Включить</a>
+                    <a href="{% url 'admin_courses_switch' course_type='MS' course_id=msclass.id %}" type="button" class="btn btn-success" style="color: white;">Включить</a>
                 {% endif %}
             </td>
           </tr>

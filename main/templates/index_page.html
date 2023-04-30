@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame event</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index_css.css' %}">
+</head>
+<style>
+
+</style>
+<body>
+  <div class="main"></div>
+    <div class="line1">
+      <div id="change1" class="text1">FRAME FRAME</div>
+    </div>
+
+    <div id="change1"></div>
+    <div class="main2">
+        <div class="groupoflogo">
+            <div class="line1svg"> <img src="{% static 'img/line1.svg'  %}"> </div>
+            <div class="logosvg">  <img id="change3" src="{% static 'img/logo.svg' %}">  </div>
+            <p class="festtext">[ФЕСТИВАЛЬ]</p>
+        </div>
+        <div class="desctext">
+            Добро пожаловать на сайт FRAME! Здесь вы <br> можете ознакомиться с программой фестиваля,<br> а также содержанием мастер-классов, станций,<br> лекций и записаться на них.
+        </div>
+        <div class="buttons">
+            <button onclick="document.location.href='/master-classes'" class="Button12">Мастер-классы</button>
+            <button onclick="document.location.href='/lectures'" class="Button1">Лекции</button>
+            <button onclick="document.location.href='/shop'" class="Button1">Магазин</button>
+        </div>
+        <div class="buttons2">
+            <button onclick="document.location.href='/login'" class="Button2">Авторизация</button>
+            <button onclick="document.location.href='/reg'" class="Button2">Регистрация</button>
+        </div>
+    </div>
+    <div class="line2">
+        <div id="change2" class="text2">FRAME FRAME</div>
+    </div>
+      <div class="bottom-blur"></div>
+  </div>
+
+
+</body>
+
+<script>
+if (window.screen.width < 1300){
+    document.getElementById("change1").innerText = "FRAME FRAME FRAME FRAME"
+    document.getElementById("change2").innerText = "FRAME FRAME FRAME FRAME"
+    document.getElementById("change3").src="{% static 'img/logo2.svg'  %}"
+}
+
+function onres(){
+    if (window.screen.width < 1300){
+        document.getElementById("change1").innerText = "FRAME FRAME FRAME FRAME"
+        document.getElementById("change2").innerText = "FRAME FRAME FRAME FRAME"
+        document.getElementById("change3").src="{% static 'img/logo2.svg'  %}"
+    }
+    else{
+        document.getElementById("change1").innerText = "FRAME FRAME"
+        document.getElementById("change2").innerText = "FRAME FRAME"
+        document.getElementById("change3").src="{% static 'img/logo.svg'  %}"
+    }
+}
+
+window.addEventListener("resize", onres)
+</script>
+</html>

@@ -3,12 +3,12 @@ $danger: #EA1264;
 
 @font-face {
     font-family: 'Halvar Breitschrift'; /*a name to be used later*/
-    src: url('fonts/HalvarBreit-Bd.ttf'); /*URL to font*/
+    src: url('/static/fonts/HalvarBreit-Bd.ttf'); /*URL to font*/
 }
 
 @font-face {
     font-family: 'TT Norms'; /*a name to be used later*/
-    src: url('/fonts/TTNormsRegular.ttf'); /*URL to font*/
+    src: url('/static/fonts/TTNormsRegular.ttf'); /*URL to font*/
 }
 
 .hvt {

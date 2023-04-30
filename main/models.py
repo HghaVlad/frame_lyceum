@@ -95,7 +95,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     points = models.IntegerField(default=0)
     won_prises = models.IntegerField(default=0)
-    Role = models.CharField(max_length=20, default="User")
+    Role = models.CharField(max_length=20, default="User")  # Admin, Manager, User
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', "user_class"]
@@ -211,7 +211,7 @@ class ActivationCode(models.Model):
         self.Made_date = datetime.now()
         self.Code = code_generator(8)
         self.Img = "/codes/"+self.Code+".png"
-        qrcode_generate("http://127.0.0.1:8000/get_code/"+self.Code, self.Code+".png")
+        qrcode_generate("https://framelyc.ru//get_code/"+self.Code, self.Code+".png")
 
     def activate(self, user):
         if self.check_user(user):

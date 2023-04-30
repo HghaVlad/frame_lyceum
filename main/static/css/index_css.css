@@ -1,0 +1,615 @@
+@font-face {
+    font-family: 'Halvar Breitschrift'; /*a name to be used later*/
+    src: url('/static/fonts/HalvarBreit-Bd.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'TT Norms'; /*a name to be used later*/
+    src: url('/static/fonts/TTNormsRegular.ttf'); /*URL to font*/
+}
+
+@media (min-width: 1300px){
+.text1{
+  position: absolute;
+
+  height: 440px ;
+
+  left: -250px;
+  top: 250px;
+  /* 600 - 450 900 - 300 1024 - 250*/
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 110px;
+  line-height: 107.3%;
+  /* or 118px */
+
+  white-space: nowrap;
+
+  text-transform: uppercase;
+
+  color: white;
+
+  transform: rotate(-90deg);
+}
+.text2{
+    position: absolute;
+
+    height: 440px ;
+
+    left: -250px;
+    top: 250px;
+    /* 600 - 450 900 - 300 1024 - 250*/
+    font-family: 'Halvar Breitschrift';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 110px;
+    line-height: 107.3%;
+    /* or 118px */
+
+    white-space: nowrap;
+
+    text-transform: uppercase;
+
+    color: white;
+
+    transform: rotate(-90deg);
+}
+
+.line1{
+    box-sizing: border-box;
+
+  position: fixed;
+  width: 112px;
+  height: 1024px;
+  left: 2%;
+  top: calc(50% - 1024px/2);
+
+  background: #0C8CE9;
+  border: 1px solid #000000;
+  }
+
+
+.line2{
+    box-sizing: border-box;
+
+    position:fixed;
+    width: 112px;
+    height: 1024px;
+    right: 2%;
+    top: calc(50% - 1024px/2);
+
+    background: #0C8CE9;
+    border: 1px solid #000000;
+}
+
+.main2{
+  box-sizing: border-box;
+
+  position:fixed;
+  width: 100%;
+  height: 1024px;
+  top: calc(50% - 1024px/2);
+
+  border: 0px solid #000000;
+}
+
+.logog{
+    margin: auto;
+    width: 40%;
+    padding-left: 28%;
+    padding-top: 15%;
+}
+
+.festtext{
+
+    position:relative;
+
+
+    font-family: 'Halvar Breitschrift';
+    font-style: normal;
+    font-weight: 700;
+
+    font-size: xx-large;
+    text-align: center;
+    line-height: 90px;
+
+
+    color: #0D99FF;
+}
+.line1svg {
+    display: flex;
+    justify-content: center;
+    height: 60%;
+}
+.logosvg{
+  margin-top: -1.3%;
+  display: flex;
+  justify-content: center;
+  height: 60%;
+}
+
+.desctext
+{
+    position: relative;
+
+    font-family: 'TT Norms';
+    font-weight: 500;
+    font-size: x-large;
+    
+    text-align: center;
+    line-height: 30px;
+    top:-20px;
+    color: #222222;
+}
+.buttons{
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  padding-left: 114px;
+  padding-right: 114px;
+}
+
+.Button1{
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: xx-large;
+  position: fixed;
+  color: #F1EDED;
+
+
+  margin-right: 10px;
+  margin-left: 10px;
+
+
+  position: relative;
+  width: 294px;
+  height: 69px;
+
+  top: 35%;
+  border:none;
+  background: #0D99FF;
+  border-radius: 7px;
+  
+
+}
+.Button1:hover {
+
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-size: xx-large;
+  position: fixed;
+  color: #0D99FF;
+
+  margin-right: 10px;
+  margin-left: 10px;
+
+  box-sizing: border-box;
+
+  position: relative;
+  width: 294px;
+  height: 69px;
+  background:none;
+  border: 1px solid #0D99FF;
+  border-radius: 5px;
+}
+
+.Button12 {
+
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: xx-large;
+  position: fixed;
+  color: #F1EDED;
+
+
+  margin-right: 10px;
+  margin-left: 10px;
+
+  position: relative;
+  width: 383px;
+  height: 69px;
+  top: 35%;
+  border:none;
+  background: #0D99FF;
+  border-radius: 7px;
+}
+
+.Button12:hover {
+
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: xx-large;
+  position: fixed;
+  color: #0D99FF;
+
+
+  margin-right: 10px;
+  margin-left: 10px;
+
+  position: relative;
+  width: 383px;
+  height: 69px;
+  top: 35%;
+  box-sizing: border-box;
+  border: 1px solid #0D99FF;;
+  background: none;
+  border-radius: 7px;
+}
+
+.buttons2{
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  padding-left: 114px;
+  padding-right: 114px;
+}
+.Button2{
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: xx-large;
+  position: fixed;
+  color: #F1EDED;
+
+
+  margin-right: 10px;
+  margin-left: 10px;
+
+
+  position: relative;
+  width: 294px;
+  height: 69px;
+
+  top: 35%;
+  border:none;
+  background: #0D99FF;
+  border-radius: 7px;
+  
+
+}
+.Button2:hover {
+
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-size: xx-large;
+  position: fixed;
+  color: #0D99FF;
+
+  margin-right: 10px;
+  margin-left: 10px;
+
+  box-sizing: border-box;
+
+  position: relative;
+  width: 294px;
+  height: 69px;
+  background:none;
+  border: 1px solid #0D99FF;
+  border-radius: 5px;
+}
+.bottom-blur {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 5%;
+  background-color: #0D99FF;
+  filter: blur(90px);
+}
+
+.overlap-group {
+    height: 1783px;
+    margin-left: -159px;
+    margin-top: -445px;
+    position: relative;
+    width: 1822px;
+  }
+
+
+.main{
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), linear-gradient(47.23deg, #0D99FF 3.53%, #0D99FF 10%);
+    filter: blur(70px);
+
+}
+}
+@media (max-width:1299px) {
+    html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.text1{
+  position: absolute;
+
+  height: 100px ;
+
+
+
+  /* 600 - 450 900 - 300 1024 - 250*/
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  text-align: center;
+  font-size: 60px;
+  line-height: 107.3%;
+  /* or 118px */
+
+  white-space: nowrap;
+
+  text-transform: uppercase;
+
+  color: white;
+
+}
+.text2{
+    position: absolute;
+
+    height: 70px ;
+
+    left: 0px;
+    top: 0px;
+    /* 600 - 450 900 - 300 1024 - 250*/
+    font-family: 'Halvar Breitschrift';
+    font-style: normal;
+    font-weight: 700;
+    text-align: center;
+    font-size: 60px;
+    line-height: 107.3%;
+    /* or 118px */
+
+    white-space: nowrap;
+
+    text-transform: uppercase;
+
+    color: white;
+
+}
+
+.line1{
+    box-sizing: border-box;
+
+    position:relative;
+    width: 100%;
+    height: 56px;
+
+  background: #0C8CE9;
+  border: 1px solid #000000;
+  }
+
+
+.line2{
+    box-sizing: border-box;
+    position: relative;
+    bottom: 1px;
+    width: 100%;
+
+    height: 56px;
+    background-color: #0C8CE9;
+    border: 1px solid #000000;
+}
+
+.main2{
+  box-sizing: border-box;
+
+  position:relative;
+  height: 900px;
+  width: 100%;
+
+  border: 0px solid #000000;
+}
+
+.logog{
+    margin: auto;
+    width: 40%;
+    padding-left: 28%;
+    padding-top: 15%;
+}
+
+.festtext{
+    top: -40px;
+    position:relative;
+    font-family: 'Halvar Breitschrift';
+    font-style: normal;
+    font-weight: 700;
+    font-size: xx-large;
+    text-align: center;
+    line-height: 90px;
+    color: #0D99FF;
+}
+.line1svg {
+    position: relative;
+    left: 45%;
+    margin-top: 0px;
+    justify-content: center;
+    height: 30%;
+
+}
+.logosvg{
+  margin-top: -25px;
+  display: flex;
+  justify-content: center;
+  height: 30%;
+}
+
+.desctext
+{
+    position: relative;
+    top:-60px;
+    font-family: 'TT Norms';
+    font-weight: 500;
+    font-size: x-large;
+
+    text-align: center;
+    line-height: 30px;
+
+    color: #222222;
+}
+.buttons{
+  text-align: center;
+}
+
+.Button1{
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: large;
+  position: fixed;
+  color: #F1EDED;
+
+  position: relative;
+  width: 168px;
+  height: 38px;
+  top: 35%;
+  border:none;
+  background: #0D99FF;
+  border-radius: 7px;
+  margin-top: 20px
+}
+
+.Button1:hover {
+
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-size: large;
+  position: fixed;
+  color: #0D99FF;
+
+
+  position: relative;
+  width: 168px;
+  height: 38px;
+  top: 35%;
+
+  background:none;
+  border: 1px solid #0D99FF;
+  border-radius: 5px;
+}
+
+.Button12 {
+
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: large;
+  position: fixed;
+  color: #F1EDED;
+
+
+  margin-right: 10px;
+  margin-left: 10px;
+
+  position: relative;
+  width: 238px;
+  height: 38px;
+  top: 35%;
+  border:none;
+  background: #0D99FF;
+  border-radius: 7px;
+}
+
+.Button12:hover {
+
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: large;
+  position: fixed;
+  color: #0D99FF;
+
+
+  margin-right: 10px;
+  margin-left: 10px;
+
+  position: relative;
+  width: 238px;
+  height: 38px;
+  top: 35%;
+  box-sizing: border-box;
+  border: 1px solid #0D99FF;;
+  background: none;
+  border-radius: 7px;
+}
+
+.Button2{
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: large;
+  position: fixed;
+  color: #F1EDED;
+
+
+  margin-right: 2px;
+  margin-left: 2px;
+
+  position: relative;
+  width: 200px;
+  height: 38px;
+  top: -25px;
+  border:none;
+  background: #0D99FF;
+  border-radius: 7px;
+}
+
+.Button2:hover{
+  font-family: 'Halvar Breitschrift';
+  font-style: normal;
+  font-weight: 700;
+  font-size: large;
+  position: fixed;
+  color: #0D99FF;
+
+
+  margin-right: 2px;
+  margin-left: 2px;
+
+  position: relative;
+  width: 200px;
+  height: 38px;
+  top: -25px;
+  border:none;
+  box-sizing: border-box;
+  border: 1px solid #0D99FF;;
+  background: none;
+  border-radius: 7px;
+}
+
+
+.buttons2{
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  padding-left: 114px;
+  padding-right: 114px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.overlap-group {
+    height: 1600px;
+    margin-left: -159px;
+    margin-top: -445px;
+    position: relative;
+    width: 1822px;
+  }
+
+.main{
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), linear-gradient(47.23deg, #0D99FF 3.53%, #0D99FF 10%);
+    filter: blur(70px);
+
+
+}
+
+.bottom-blur {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 10%;
+  background-color: #0D99FF;
+  filter: blur(90px);
+}
+}

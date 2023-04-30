@@ -8,7 +8,7 @@ unauthenticated = {"message": "Вы не авторизованы", "comment": "
 
 # Create your views here.
 def index_page(request):
-    return render(request, "index.html")
+    return render(request, "index_page.html")
 
 
 def lecture_page(request):
