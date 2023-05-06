@@ -2,24 +2,24 @@
 
 
 1. Регистрация на [сайте](https://framelyc.ru/reg)
-    <img src="img1.jpg">
-    <img src="img2.jpg">
+    <img src="img/img1.jpg">
+    <img src="img/img2.jpg">
 
 2. Логин, указанный при регистрации сообщить админу(мне). После чего
 вы получаете доступ.
 
 3. Открыть страницу [личного кабинета](https://framelyc.ru/profile)
-    <img src="img3.jpg">
+    <img src="img/img3.jpg">
 
 4. В правом верхнем углу нажать Админ Панель(Открывается страница с [qr кодами](https://framelyc.ru/admin_codes))
-    <img src="img4.jpg">
+    <img src="img/img4.jpg">
 
 5. Нажать Создать код
 6. Ввести количество баллов
-    <img src="img5.jpg">
+    <img src="img/img5.jpg">
 7. Нажать Создать код
 8. После чего появляется новая карточка с кодом.
-    <img src="img6.jpg">
+    <img src="img/img6.jpg">
 
 
 
