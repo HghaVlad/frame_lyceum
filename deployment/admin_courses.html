@@ -55,7 +55,7 @@
       </div>
     </nav>
     
-    <div class="container">
+    <div class="container" id="container1">
         <h2 class="hvt">Лекции</h2>
         <br>
         <table class="table align-middle mb-0 bg-white">
@@ -117,7 +117,10 @@
                     20
                 </td>
                 <td>
+                  <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-outline-danger" >Выключить</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="change_place(1, 'LC')" >Кол-во мест</button>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -149,7 +152,7 @@
           </table>
     </div>
 
-    <div class="container">
+    <div class="container" id="container2">
         <br>
         <h2 class="hvt">Мастер-классы</h2>
         <br>
@@ -258,9 +261,54 @@
             </tbody>
           </table>
     </div>
-
+ 
+    <div class="container d-flex justify-content-center h-100 d-none" id="myasker">
+      <div class="card shadow">
+        <div class="card-body">
+      
+          <div class="d-flex justify-content-center align-items-center mb-3">
+      
+            <h3 class="card-title hvt text-primary">Изменить количество мест</h3>
+          </div>
+          <input name="code_points" type="number" class="form-control ttf" id="newplaces" placeholder="Количество мест">
+          <br>
+          <div class="d-grid gap-2 col-6 mx-auto">
+              
+          <button onclick="agree_change()" type="button" class="btn btn-outline-success">Сохранить</button>
+          <button onclick="decline_change()" type="button" class="btn btn-outline-danger">Отмена</button>
+          </div>
+      </div>
+      </div>
+  </div>     
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<script>
+  course_id = -1
+  course_type = "NL"
+  var newplaces = document.getElementById("newplaces")
+  var container1 = document.getElementById("container1");
+  var container2 = document.getElementById("container2");
+  var asker = document.getElementById("myasker");
 
+  function change_place(chosen_course_id, chose_course_type){
+      container1.classList.add("d-none");
+      container2.classList.add("d-none");
+      asker.classList.remove("d-none");
+      course_id = chosen_course_id;
+      course_type = chose_course_type 
+  }
+  function agree_change(){
+
+      if (course_id > 0 && newplaces.value.length >=1) {
+      document.location.href = "/change_place/" + course_type + "/" + course_id + "/" + newplaces.value;
+      }
+  }
+  function decline_change(){
+      asker.classList.add("d-none");
+      container1.classList.remove("d-none");
+      container2.classList.remove("d-none");
+      course_id = -1;
+  }
+</script>
 </html>
