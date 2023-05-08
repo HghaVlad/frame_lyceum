@@ -5,7 +5,7 @@
 
 {% block content %}
 {% load math %}
-<div class="container">
+<div class="container" id="container1">
     <h2 class="hvt">Лекции</h2>
     <br>
     <table class="table align-middle mb-0 bg-white">
@@ -43,11 +43,14 @@
                 {{ lecture.Places }}
             </td>
             <td>
+             <div class="btn-group" role="group" aria-label="Basic example">
                 {% if lecture.Available == 1 %}
                     <a href="{% url 'admin_courses_switch' course_type='LC' course_id=lecture.id %}" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
                 {% else %}
                     <a href="{% url 'admin_courses_switch' course_type='LC' course_id=lecture.id %}" type="button" class="btn btn-success" style="color: white;">Включить</a>
                 {% endif %}
+                 <button type="button" class="btn btn-outline-primary" onclick="change_place({{ lecture.id  }}, 'LC')" >Кол-во мест</button>
+                 </div>
             </td>
           </tr>
           {% endfor %}
@@ -57,7 +60,7 @@
       </table>
 </div>
 
-<div class="container">
+<div class="container" id="container2">
     <br>
     <h2 class="hvt">Мастер-классы</h2>
     <br>
@@ -95,18 +98,21 @@
             <td>
                {% for time, attends in msclass.Time|make_zip:msclass.Attends %}
                    <p class="fw-bold mb-1" style="display: inline;">{{ time }} -</p><p style="display: inline;"> {{ attends }}</p>
-                   <br>
+                     <br>
                 {% endfor %}
             </td>
             <td>
                 {{ msclass.Places }}
             </td>
             <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
                 {% if msclass.Available == 1 %}
                     <a href="{% url 'admin_courses_switch' course_type='MS' course_id=msclass.id %}" type="button" class="btn btn-danger" style="color: white;">Отключить</a>
                 {% else %}
                     <a href="{% url 'admin_courses_switch' course_type='MS' course_id=msclass.id %}" type="button" class="btn btn-success" style="color: white;">Включить</a>
                 {% endif %}
+                <button type="button" class="btn btn-outline-primary" onclick="change_place({{msclass.id }}, 'MS')" >Кол-во мест</button>
+                </div>
             </td>
           </tr>
           {% endfor %}
@@ -114,4 +120,55 @@
       </table>
 </div>
 
+<div class="container d-flex justify-content-center h-100 d-none" id="myasker">
+  <div class="card shadow">
+    <div class="card-body">
+
+      <div class="d-flex justify-content-center align-items-center mb-3">
+
+        <h3 class="card-title hvt text-primary">Изменить количество мест</h3>
+      </div>
+      <input name="code_points" type="number" class="form-control ttf" id="newplaces" placeholder="Количество мест">
+      <br>
+      <div class="d-grid gap-2 col-6 mx-auto">
+
+      <button onclick="agree_change()" type="button" class="btn btn-outline-success">Сохранить</button>
+      <button onclick="decline_change()" type="button" class="btn btn-outline-danger">Отмена</button>
+      </div>
+  </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  var course_id = -1
+  var course_type = "NL"
+  var newplaces = document.getElementById("newplaces")
+  var container1 = document.getElementById("container1");
+  var container2 = document.getElementById("container2");
+  var asker = document.getElementById("myasker");
+
+  function change_place(chosen_course_id, chose_course_type){
+      container1.classList.add("d-none");
+      container2.classList.add("d-none");
+      asker.classList.remove("d-none");
+      course_id = chosen_course_id;
+      course_type = chose_course_type
+  }
+  function agree_change(){
+
+      if (course_id > 0 && newplaces.value.length >=1) {
+      document.location.href = "/admin_change_place/" + course_type + "/" + course_id + "/" + newplaces.value;
+      }
+  }
+  function decline_change(){
+      asker.classList.add("d-none");
+      container1.classList.remove("d-none");
+      container2.classList.remove("d-none");
+      course_id = -1;
+  }
+</script>
 {% endblock %}

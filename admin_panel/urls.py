@@ -12,7 +12,9 @@ urlpatterns = [
     path("new_code", views.admin_new_code, name="admin_new_code"),
     path("courses", views.admin_courses, name="admin_courses"),
     path("users", views.admin_users, name="admin_users"),
-    path("shop_switch/<str:course_type>/<int:course_id>", views.admin_courses_switch, name="admin_courses_switch")
+    path("course_switch/<str:course_type>/<int:course_id>", views.admin_courses_switch, name="admin_courses_switch"),
+    path("change_place/<str:course_type>/<int:course_id>/<int:newplaces>", views.admin_course_change_place, name="admin_course_places"),
+    path("registrations", views.admin_course_registrations, name="admin_couse_registrations")
 ]
 
 if settings.DEBUG:

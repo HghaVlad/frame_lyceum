@@ -12,12 +12,12 @@
           <div class="col">
             <div class="card shadow-sm align-items-stretch h-100">
               <img class="bd-placeholder-img card-img-top" width="100%" height="225"  role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill="#55595c"></rect>
-              <div class="card-body ">
+              <div class="card-body">
                 <p class="card-text ttf fs-2 text-primary">{{ good.Name }}</p>
                 <p class="card-text ttf fs-5 text-primary">{{ good.Description }} </p>
                 <p class="card-text ttf fs-5 text-primary">Осталось: {{ good.Quantity|get_left:good.Bought_col }} шт.</p>
                 <div class="d-flex justify-content-between align-items-center">
-                  <button onclick="order(1, {{ good.Price }})" type="button" class="btn btn-sm btn-primary" style="color: white;">Купить за {{ good.Price }} баллов</button>
+                  <button onclick="order({{ good.id }}, {{ good.Price }})" type="button" class="btn btn-sm btn-primary" style="color: white;">Купить за {{ good.Price }} баллов</button>
                 </div>
               </div>
             </div>

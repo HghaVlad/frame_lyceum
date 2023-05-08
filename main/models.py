@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django_mysql.models import ListCharField
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
 from .utils import code_generator, qrcode_generate
@@ -10,7 +10,7 @@ class Good(models.Model):
 
     id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=100)
-    Description = models.TextField()
+    Description = models.TextField(blank=True, null=True)
     Img = models.CharField(max_length=400)
     Price = models.IntegerField()
     Quantity = models.IntegerField()  # Количество
@@ -40,8 +40,9 @@ class Good(models.Model):
 
 class Lecture(models.Model):
     id = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=100)
-    Speaker = models.CharField(max_length=50)
+    Name = models.CharField(max_length=150)
+    Description = models.TextField()
+    Speaker = models.CharField(max_length=150)
     Time = models.CharField(max_length=30)
     Location = models.CharField(max_length=50)
     Img = models.TextField()
@@ -68,10 +69,10 @@ class MasterClass(models.Model):
     id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=100)
     Description = models.TextField()
-    Time = ArrayField(models.CharField(max_length=10, blank=True))
+    Time = ListCharField(models.CharField(blank=True, max_length=30), max_length=300, size=None)
     Location = models.CharField(max_length=50)
     Places = models.IntegerField()
-    Attends = ArrayField(models.IntegerField(default=0))
+    Attends = ListCharField(models.IntegerField(default=0), max_length=40, size=None)
     Available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
 
@@ -250,3 +251,21 @@ def change_status(model):
     else:
         model.Available = 0
     model.save()
+
+
+def change_places(model, new_places: int):
+    model.Places = new_places
+    model.save()
+
+
+def are_time_same(user, reg_time):  # check if the user is registered to another lecture with the same time
+    regis = Registration.objects.filter(User=user).all()
+    regtime1 = datetime.strptime(reg_time[:5], "%H:%M")
+    regtime2 = datetime.strptime(reg_time[6:], "%H:%M")
+    for registration in regis:
+        time1 = datetime.strptime(registration.Time[:5], "%H:%M")
+        time2 = datetime.strptime(registration.Time[6:], "%H:%M")
+        if (regtime1 <= time1 <= regtime2) or (regtime1 <= time2 <= regtime2) or (time1 <= regtime1 and time2 >= regtime2):
+            return False
+
+    return True

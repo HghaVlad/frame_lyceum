@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate, logout
-from .models import User, Lecture, Good, MasterClass, Registration, Order, ActivationCode
+from .models import User, Lecture, Good, MasterClass, Registration, Order, ActivationCode, are_time_same
 
 unauthenticated = {"message": "Вы не авторизованы", "comment": "Пожалуйста зарегистрируйтесь"}
 
@@ -12,7 +12,7 @@ def index_page(request):
 
 
 def lecture_page(request):
-    lectures = Lecture.objects.filter(Available=1).all()
+    lectures = Lecture.objects.filter(Available=1).order_by('Time').all()
     return render(request, "lectures.html", {"lectures": lectures})
 
 
@@ -22,9 +22,14 @@ def attend_lecture(request, lecture_id):
         if my_lecture:
             if my_lecture.Attends < my_lecture.Places:
                 if my_lecture.check_reg(request.user):
-                    my_lecture.attend(request.user)
-                    return render(request, "success_page.html", {"message": "Успех", "comment":
-                                                                 "Вы зарегистрировались на лекцию"})
+                    if are_time_same(request.user, my_lecture.Time):
+                        my_lecture.attend(request.user)
+                        return render(request, "success_page.html", {"message": "Успех", "comment":
+                                                                     "Вы зарегистрировались на лекцию"})
+                    else:
+                        return render(request, "error_page.html", {"message": "Отсутсвие времени",
+                                                                   "comment": "На этот времяной слот вы зарегистрированы"
+                                                                              " для другой активности или время пересекается"})
                 else:
                     return render(request, "error_page.html", {"message": "Повторная регистрация",
                                                                "comment": "Вы уже зарегистрированы на этой лекции"})
@@ -39,9 +44,9 @@ def attend_lecture(request, lecture_id):
 
 
 def master_classes_page(request):
-    ms_classes = MasterClass.objects.filter(Available=1).all()
+    ms_classes = MasterClass.objects.filter(Available=1).order_by('Time').all()
     for ms_class in ms_classes:
-        ms_class.string_time = ", ".join(ms_class.Time)
+        ms_class.string_time = "\n".join(ms_class.Time)
     return render(request, "master-classes.html", {"master_classes": ms_classes})
 
 
@@ -61,9 +66,14 @@ def attend_master_class(request, msclass_id, time_index):
         if my_msclass:
             if my_msclass.Attends[time_index] < my_msclass.Places:
                 if my_msclass.check_reg(request.user, time_index):
-                    my_msclass.attend(request.user, time_index)
-                    return render(request, "success_page.html", {"message": "Успех", "comment":
-                                                                 "Вы зарегистрировались на мастер-класс"})
+                    if are_time_same(request.user, my_msclass.Time[time_index]):
+                        my_msclass.attend(request.user, time_index)
+                        return render(request, "success_page.html", {"message": "Успех", "comment":
+                                                                     "Вы зарегистрировались на мастер-класс"})
+                    else:
+                        return render(request, "error_page.html", {"message": "Отсутсвие времени",
+                                                                   "comment": "На этот времяной слот вы зарегистрированы"
+                                                                              " для другой активности или время пересекается"})
                 else:
                     return render(request, "error_page.html", {"message": "Повторная регистрация",
                                                                "comment": "Вы уже зарегистрированы на этом "
@@ -105,6 +115,8 @@ def make_order(request, good_id):
 
 
 def login_page(request):
+    if request.user.is_authenticated:
+        return redirect("/profile")
     if request.method == "GET":
         return render(request, "login.html")
     else:
@@ -117,6 +129,8 @@ def login_page(request):
 
 
 def reg_page(request):
+    if request.user.is_authenticated:
+        return redirect("/profile")
     if request.method == "GET":
         return render(request, "reg.html")
     else:
@@ -169,7 +183,8 @@ def new_password(request):
                 return render(request, "new_password.html", {"status": "Минимальная длина пароль 6 символов"})
             else:
                 user = request.user
-                request.user.change_password(data['user_password'])
+                user.set_password(data['user_password'])
+                user.save()
                 login(request, user)
                 return render(request, "success_page.html", {"message": "Успех", "comment": "Вы изменили пароль"})
 

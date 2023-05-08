@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qpnrdroao9%4bp&=42shrr)c2ph)imh++m3ze_^m0ju#j!u6z%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Frame_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'frame_base',
         'USER': os.environ['DB_USER'],
         'PASSWORD': 'admin',

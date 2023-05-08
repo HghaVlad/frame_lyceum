@@ -1,0 +1,58 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}QR-Коды{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+        <h2 class="hvt">Записи </h2>
+        <br>
+        <input class="form-control" id="myInput" type="text" placeholder="Поиск..">
+        <br>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>ФИО</th>
+              <th>Группа</th>
+              <th>Тип записи</th>
+              <th>Название</th>
+              <th>Время</th>
+              <th>Время записи</th>
+            </tr>
+          </thead>
+          <tbody id="myTable" class="ttf">
+            {% for registration in registrations %}
+            <tr>
+              <td>{{ registration.User.name }}</td>
+              <td>{{ registration.User.user_class }}</td>
+              {% if registration.Attend_type == 'LC' %}
+              <td>Лекция</td>
+              <td>{{ registration.Lecture.Name }}</td>
+              {% else %}
+              <td>Мастер класс</td>
+              <td>{{ registration.Master_class.Name }}</td>
+              {% endif %}
+              <td>{{ registration.Time }}</td>
+              <td>{{ registration.Registration_time }}</td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+{% endblock %}
