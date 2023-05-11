@@ -12,7 +12,7 @@ def index_page(request):
 
 
 def lecture_page(request):
-    lectures = Lecture.objects.filter(Available=1).order_by('Time').all()
+    lectures = Lecture.objects.filter(Available=1).order_by('Order').all()
     return render(request, "lectures.html", {"lectures": lectures})
 
 
@@ -47,6 +47,7 @@ def master_classes_page(request):
     ms_classes = MasterClass.objects.filter(Available=1).order_by('Time').all()
     for ms_class in ms_classes:
         ms_class.string_time = "\n".join(ms_class.Time)
+        ms_class.is_free = True if sum(ms_class.Attends) < ms_class.Places * len(ms_class.Attends) else False  # Есть ли свободные места
     return render(request, "master-classes.html", {"master_classes": ms_classes})
 
 
@@ -56,7 +57,7 @@ def get_master_class_time(request):
         times = []
         for i in range(len(my_msclass.Time)):
             if my_msclass.Attends[i] < my_msclass.Places:
-                times.append(my_msclass.Time[i])
+                times.append([my_msclass.Time[i], i])
         return JsonResponse(data={"time": times}, status=200)
 
 
@@ -83,7 +84,7 @@ def attend_master_class(request, msclass_id, time_index):
                                                            "comment": "К сожалению все свободные места "
                                                                       "на данный мастер класс закончились"})
         else:
-            return render(request, "error_page.html", {"message": "Мастер-класс не найден"})
+            return render(request, "error_page.html", {"message": "Мастер-класс не найден", "comment": ""})
 
     return render(request, "error_page.html", unauthenticated)
 
@@ -118,7 +119,7 @@ def login_page(request):
     if request.user.is_authenticated:
         return redirect("/profile")
     if request.method == "GET":
-        return render(request, "login.html")
+        return render(request, "login.html", {"status": ""})
     else:
         data = request.POST
         user = authenticate(request, username=data['user_login'], password=data['user_password'])
@@ -132,7 +133,7 @@ def reg_page(request):
     if request.user.is_authenticated:
         return redirect("/profile")
     if request.method == "GET":
-        return render(request, "reg.html")
+        return render(request, "reg.html", {"status": ""})
     else:
         data = request.POST
         if data['password'] != data["password_repeat"]:
