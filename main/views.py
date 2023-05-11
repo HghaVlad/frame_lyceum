@@ -25,7 +25,7 @@ def attend_lecture(request, lecture_id):
                     if are_time_same(request.user, my_lecture.Time):
                         my_lecture.attend(request.user)
                         return render(request, "success_page.html", {"message": "Успех", "comment":
-                                                                     "Вы зарегистрировались на лекцию"})
+                            "Вы зарегистрировались на лекцию"})
                     else:
                         return render(request, "error_page.html", {"message": "Отсутсвие времени",
                                                                    "comment": "На этот времяной слот вы зарегистрированы"
@@ -47,7 +47,8 @@ def master_classes_page(request):
     ms_classes = MasterClass.objects.filter(Available=1).order_by('Time').all()
     for ms_class in ms_classes:
         ms_class.string_time = "\n".join(ms_class.Time)
-        ms_class.is_free = True if sum(ms_class.Attends) < ms_class.Places * len(ms_class.Attends) else False  # Есть ли свободные места
+        ms_class.is_free = True if sum(ms_class.Attends) < ms_class.Places * len(
+            ms_class.Attends) else False  # Есть ли свободные места
     return render(request, "master-classes.html", {"master_classes": ms_classes})
 
 
@@ -70,7 +71,7 @@ def attend_master_class(request, msclass_id, time_index):
                     if are_time_same(request.user, my_msclass.Time[time_index]):
                         my_msclass.attend(request.user, time_index)
                         return render(request, "success_page.html", {"message": "Успех", "comment":
-                                                                     "Вы зарегистрировались на мастер-класс"})
+                            "Вы зарегистрировались на мастер-класс"})
                     else:
                         return render(request, "error_page.html", {"message": "Отсутсвие времени",
                                                                    "comment": "На этот времяной слот вы зарегистрированы"
@@ -144,6 +145,8 @@ def reg_page(request):
             return render(request, "reg.html", {"status": "Минимальная длина логина 4 символа"})
         elif len(data['user_name']) < 6:
             return render(request, "reg.html", {"status": "Минимальная длина имени 6 символа"})
+        elif User.objects.filter(login=data['login']).count() > 0:
+            return render(request, "reg.html", {"status": "Пользователь с таким логином уже существует"})
         else:
             new_user = User()
             new_user.reg(data)
@@ -226,6 +229,9 @@ def enter_code(request):
             code = request.POST['Code']
             my_activation_code = ActivationCode.objects.filter(Code=code).first()
             if my_activation_code:
+                if my_activation_code.Available == 0:
+                    return render(request, "error_page.html",
+                                  {"message": "Код не найден", "comment": "Проверьте введенный QR-код"})
                 if my_activation_code.activate(request.user):
                     return render(request, "success_page.html", {"message": "Успех", "comment": "Вы активировали код"})
                 else:

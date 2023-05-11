@@ -14,7 +14,8 @@ urlpatterns = [
     path("users", views.admin_users, name="admin_users"),
     path("course_switch/<str:course_type>/<int:course_id>", views.admin_courses_switch, name="admin_courses_switch"),
     path("change_place/<str:course_type>/<int:course_id>/<int:newplaces>", views.admin_course_change_place, name="admin_course_places"),
-    path("registrations", views.admin_course_registrations, name="admin_couse_registrations")
+    path("registrations", views.admin_course_registrations, name="admin_couse_registrations"),
+    path("commands", views.admin_additional_points, name="admin_additional_points"),
 ]
 
 if settings.DEBUG:

@@ -25,6 +25,7 @@
         <li><a href="/admin_registrations" class="nav-link px-2 hvt text-danger">Регистрации</a></li>
          {% if request.user.Role == 'Admin' %}
         <li><a href="/admin_users" class="nav-link px-2 hvt text-danger">Пользователи</a></li>
+
          {% endif %}
       </ul>
 
@@ -59,6 +60,10 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/admin_users"><div class="hvt">Пользователи</div></a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin_commands"><div class="hvt">Команды</div></a>
+                </li>
+
               {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="/"><div class="hvt">Главный сайт</div></a>

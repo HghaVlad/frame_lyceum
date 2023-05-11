@@ -1,9 +1,11 @@
-from main.models import User, Activations
+from main.models import User, Activation
 
 
-def give_addition_points(min_activations, new_points):
+def give_addition_points(min_activations: int, new_points: int):
+    users_list = []
     for user in User.objects.all():
-        if len(Activations.objects.filter(user=user).count()) >=min_activations:
-            user.points += new_points
+        if Activation.objects.filter(User=user).count() >= int(min_activations):
+            user.points += int(new_points)
             user.save()
-
+            users_list.append(user)
+    return users_list

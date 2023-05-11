@@ -216,7 +216,7 @@ class ActivationCode(models.Model):
         qrcode_generate("https://framelyc.ru//get_code/"+self.Code, self.Code+".png")
 
     def activate(self, user):
-        if self.check_user(user):
+        if self.check_user(user) and self.Available == 1:
             self.Used += 1
             new_activation = Activation()
             new_activation.make(self, user)

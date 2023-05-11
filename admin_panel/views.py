@@ -1,5 +1,9 @@
+import logging
 from django.shortcuts import render, redirect
 from main.models import User, Lecture, Good, MasterClass, Order, ActivationCode, Registration, change_status, change_places
+from .scripts import give_addition_points
+
+logger = logging.getLogger("django")
 
 unauthenticated = {"message": "Вы не авторизованы", "comment": "Пожалуйста зарегистрируйтесь"}
 
@@ -147,3 +151,29 @@ def admin_course_registrations(request):
         if request.user.Role in ["Admin", 'Manager']:
             registrations = Registration.objects.all()
             return render(request, "admin_registrations.html", {"registrations": registrations})
+
+    return render(request, "error_page.html", unauthenticated)
+
+
+def admin_additional_points(request):
+    if request.user.is_authenticated:
+        if request.user.Role in ["Admin", 'Manager']:
+            if request.method == "GET":
+                return render(request, "admin_commands.html")
+            else:
+                min_activations = request.POST.get("min_activations")
+                give_points = request.POST.get("give_points")
+                if min_activations and give_points:
+                    if min_activations.isdigit() is False or give_points.isdigit() is False:
+                        return render(request, "error_page.html", {"message": "Значения должны быть больше нуля"})
+                    elif int(min_activations) < 0 and int(give_points) < 0:
+                        return render(request, "error_page.html", {"message": "Значения должны быть больше нуля"})
+                    else:
+                        user_lists = give_addition_points(min_activations, give_points)
+                        logger.debug(user_lists)
+                        return render(request, "error_page.html", {"message": "Вы успешно добавили баллы",
+                                                                   "comment": f"Баллы получили {len(user_lists)} пользователей"})
+                else:
+                    return render(request,  "error_page.html", {"message": "Заполните оба поля"})
+
+    return render(request, "error_page.html", unauthenticated)
