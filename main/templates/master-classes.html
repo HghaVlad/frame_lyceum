@@ -28,15 +28,19 @@
                             </tr>
                             <tr>
                                 <td> <h5 class="hvt text-primary">Всего мест:</h5></td>
+                                {% if ms_class.is_free == True %}
                                 <td><p class="ttf fs-5">{{ ms_class.Places|linebreaksbr }}</p></td>
+                                {% else %}
+                                <td><p class="ttf fs-5">Места на запись закончились</p></td>
+                                {% endif %}
                               </tr>
                         </table>
                     <p class="card-text ttf fs-4 text-primary">{{ ms_class.Description|linebreaksbr }}</p>
-
+                    {% if ms_class.is_free == True %}
                     <div class="d-flex justify-content-between align-items-center">
                         <button onclick="attend({{ ms_class.id }})" type="button" class="btn btn-primary" style="color: white;">Записаться</button>
                     </div>
-
+                    {% endif %}
                   </div>
                   </div>
                 </div>
@@ -125,7 +129,7 @@
                         time_row.classList.add("g-5")
                     }
                     for (let i = 0; i < data['time'].length; i++){
-                        make_button(data['time'][i], i)
+                        make_button(data['time'][i][0], data['time'][i][1])
                     }
                 },
                 error: function (message){

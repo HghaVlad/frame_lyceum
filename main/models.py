@@ -50,6 +50,7 @@ class Lecture(models.Model):
     Attends = models.IntegerField(default=0)
     Available = models.IntegerField(default=0)  # Доступно пользователю или нет 1/0
     Date = models.DateTimeField()  # Дата создания
+    Order = models.IntegerField(default=100)  # Порядок в списке
 
     def __str__(self):
         return str(self.Name) + " by " + str(self.Speaker)
@@ -261,10 +262,10 @@ def change_places(model, new_places: int):
 def are_time_same(user, reg_time):  # check if the user is registered to another lecture with the same time
     regis = Registration.objects.filter(User=user).all()
     regtime1 = datetime.strptime(reg_time[:5], "%H:%M")
-    regtime2 = datetime.strptime(reg_time[6:], "%H:%M")
+    regtime2 = datetime.strptime(reg_time[6:11], "%H:%M")
     for registration in regis:
         time1 = datetime.strptime(registration.Time[:5], "%H:%M")
-        time2 = datetime.strptime(registration.Time[6:], "%H:%M")
+        time2 = datetime.strptime(registration.Time[6:11], "%H:%M")
         if (regtime1 <= time1 <= regtime2) or (regtime1 <= time2 <= regtime2) or (time1 <= regtime1 and time2 >= regtime2):
             return False
 

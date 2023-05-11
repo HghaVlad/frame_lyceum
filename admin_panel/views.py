@@ -87,8 +87,10 @@ def admin_users(request):
             for user in users:
                 lectures = [registration.Lecture for registration in Registration.objects.filter(Attend_type="LC", User=user)]
                 master_classes = [registration.Master_class for registration in Registration.objects.filter(Attend_type="MS", User=user)]
+                orders = Order.objects.filter(User=user).all()
                 user.lectures = lectures
                 user.master_classes = master_classes
+                user.orders = orders
             return render(request, "admin_users.html", {"users": users})
 
 
@@ -96,7 +98,7 @@ def admin_courses(request):
     if request.user.is_authenticated:
         if request.user.Role in ["Admin", 'Manager']:
             master_classes = MasterClass.objects.all()
-            lectures = Lecture.objects.all()
+            lectures = Lecture.objects.order_by('Order').all()
             return render(request, "admin_courses.html", {"master_classes": master_classes, "lectures": lectures})
 
     return render(request, "error_page.html", unauthenticated)
