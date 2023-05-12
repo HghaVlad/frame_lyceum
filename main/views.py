@@ -11,6 +11,10 @@ def index_page(request):
     return render(request, "index_page.html")
 
 
+def scedule_page(request):
+    return render(request, "schedule_page.html")
+
+
 def lecture_page(request):
     lectures = Lecture.objects.filter(Available=1).order_by('Order').all()
     return render(request, "lectures.html", {"lectures": lectures})
@@ -145,7 +149,7 @@ def reg_page(request):
             return render(request, "reg.html", {"status": "Минимальная длина логина 4 символа"})
         elif len(data['user_name']) < 6:
             return render(request, "reg.html", {"status": "Минимальная длина имени 6 символа"})
-        elif User.objects.filter(login=data['login']).count() > 0:
+        elif User.objects.filter(username=data['login']).count() > 0:
             return render(request, "reg.html", {"status": "Пользователь с таким логином уже существует"})
         else:
             new_user = User()

@@ -21,6 +21,7 @@ urlpatterns = [
     path("get_ms_time", views.get_master_class_time, name="get_master_class_time"),
     path("enter_code", views.enter_code, name="enter_code_page"),
     path("get_code/<str:code>", views.get_code, name="get_code"),
+    path("schedule", views.scedule_page, name="scedule_page"),
 ]
 
 if settings.DEBUG:
