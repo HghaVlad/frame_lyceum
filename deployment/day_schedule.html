@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/css/custom.css" >   
+    <title>Пользователи</title>
+</head>
+<body> 
+    
+
+  <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-2 mb-2 mb-md-0">
+        <a href="/" class="navbar-left"><img width="120px" src="fine_logo.svg"></a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="admin_codes.html" class="nav-link px-2 hvt text-danger">QR-коды</a></li>
+        <li><a href="admin_shop.html" class="nav-link px-2 hvt text-danger">Магазин</a></li>
+        <li><a href="admin_courses.html" class="nav-link px-2 hvt text-danger">Курсы</a></li>
+      </ul>
+
+      <div class="col-md-4 text-end">
+        <a href="admin_login.html" class="btn btn-outline-danger my-mine2 my-2"><div class="hvt">Авторизация</div></a>
+      </div>
+    </header>
+  </div>
+  <nav class="navbar navbar-expand-md navbar-light bg-light d-md-none">
+      <div class="container-fluid">
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobileMenu" aria-controls="navbarMobileMenu" aria-expanded="false" aria-label="Меню">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMobileMenu">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+              <li class="nav-item">
+                  <a href="/" class="navbar-left"><img width="120px" src="fine_logo.svg"></a>
+                </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin_codes.html"><div class="hvt">QR-коды</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin_shop.html"><div class="hvt">Магазин</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin_courses.html"><div class="hvt">Курсы</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin_login.html"><div class="hvt">Авторизация</div></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" > 
+        <h1 class="hvt">Расписание дня </h1>
+        <br>
+        <ul class="nav nav-tabs hvt" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link active text-danger" style="font-size: x-large;" id="morning-button" onclick="press_morning()" role="tab">Утро</a>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" style="font-size: x-large;" id="afternoon-button" onclick="press_afternoon()" role="tab">День</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" style="font-size: x-large;" id="evening-button" onclick="press_evening()" role="tab">Вечер</button>
+            </li>
+          </ul>
+          
+            <table class="table table-bordered table-striped" id="morning-table">
+
+                <tbody class="ttf ">
+                    <tr>
+                      <td style="font-size: larger;">10:20-10:45</td>
+                      <td style="font-size: large;">Открытие фестиваля(двор БХ)</td>        
+                    </tr>
+                    <tr>
+                        <td style="font-size: larger;">11:00-12:00</td>
+                        <td style="font-size: large;">1 слот лекций(БХ и Ляля)</td>        
+                    </tr>
+                    <tr>
+                        <td style="font-size: larger;">12:15-13:15</td>
+                        <td style="font-size: large;">2 слот лекций(БХ и Ляля)</td>        
+                    </tr>
+                    <tr>
+                        <td style="font-size: larger;">13:30-14:30</td>
+                        <td style="font-size: large;">3 слот лекций(БХ и Ляля)</td>        
+                    </tr>
+
+                  </tbody>
+              </table>
+            
+            <table class="table table-bordered table-striped d-none" id="afternoon-table">
+                <tbody class="ttf ">
+                    <tr>
+                        <td style="font-size: larger;">14:50-17:30</td>
+                        <td style="font-size: large;">Открытие фестиваля(двор БХ)</td>        
+                    </tr>
+                  
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-striped d-none" id="evening-table">
+                <tbody class="ttf ">
+                    <tr>
+                      <td style="font-size: larger;">17:30-17:50</td>
+                      <td style="font-size: large;">Аукцион</td>        
+                    </tr>
+                    <tr>
+                        <td style="font-size: larger;">17:50-18:20</td>
+                        <td style="font-size: large;">Концерт LycMusic</td>        
+                    </tr>
+                    <tr>
+                        <td style="font-size: larger;">18:00-18:20</td>
+                        <td style="font-size: large;">Магазин мерча</td>        
+                    </tr>
+                    <tr>
+                        <td style="font-size: larger;">18:20-19:40</td>
+                        <td style="font-size: large;">Дискотека</td>        
+                    </tr>
+                    <tr>
+                      <td style="font-size: larger;">19:55-20:15</td>
+                      <td style="font-size: large;">Показ мод</td>        
+                  </tr>
+                  <tr>
+                    <td style="font-size: larger;">20:30-20:50</td>
+                    <td style="font-size: large;">Закрытие</td>        
+                </tr>
+
+                  </tbody>
+            </table>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<script>
+
+  // Get all of the nav links
+  var state = "morning"
+  var morning_button = document.getElementById("morning-button");
+  var afternoon_button = document.getElementById("afternoon-button");
+  var evening_button = document.getElementById("evening-button");
+  var morning_table = document.getElementById("morning-table");
+  var afternoon_table = document.getElementById("afternoon-table");
+  var evening_table = document.getElementById("evening-table");
+
+
+  morning_button.click ("click", function( ) {
+    if (state == "afternoon"){
+        state = "morning"
+        afternoon_table.classList.add("d-none")
+        morning_table.classList.remove("d-none")
+    }
+    else if (state == "evening"){
+      state = "morning"
+      evening_table.classList.add("d-none")
+      morning_button.classList.remove("d-none")
+    }
+  })
+
+  function press_morning ( ) {
+    console.log("hf");
+    if (state == "afternoon"){
+        state = "morning"
+        afternoon_table.classList.add("d-none")
+        morning_table.classList.remove("d-none")
+        afternoon_button.classList.remove("active")
+        afternoon_button.classList.remove("text-danger")
+        morning_button.classList.add("active")
+        morning_button.classList.add("text-danger")
+    }
+    else if (state == "evening"){
+      state = "morning"
+      evening_table.classList.add("d-none")
+      morning_table.classList.remove("d-none")
+      evening_button.classList.remove("active")
+      evening_button.classList.remove("text-danger")
+      morning_button.classList.add("active")
+      morning_button.classList.add("text-danger")
+    }
+  }
+
+  function press_afternoon ( ) {
+    console.log(state);
+    if (state == "morning"){
+        state = "afternoon"
+        morning_table.classList.add("d-none")
+        afternoon_table.classList.remove("d-none")
+        morning_button.classList.remove("active")
+        morning_button.classList.remove("text-danger")
+        afternoon_button.classList.add("active")
+        afternoon_button.classList.add("text-danger")
+    }
+    else if (state == "evening"){
+      state = "afternoon"
+      evening_table.classList.add("d-none")
+      afternoon_table.classList.remove("d-none")
+      evening_button.classList.remove("active")
+      evening_button.classList.remove("text-danger")
+      afternoon_button.classList.add("active")
+      afternoon_button.classList.add("text-danger")
+    }
+  }
+  function press_evening () {
+    if (state == "morning"){
+        state = "evening"
+        morning_table.classList.add("d-none")
+        evening_table.classList.remove("d-none")
+        morning_button.classList.remove("active")
+        morning_button.classList.remove("text-danger")
+        evening_button.classList.add("active")
+        evening_button.classList.add("text-danger")
+    }
+    else if (state == "afternoon"){
+      state = "evening"
+      afternoon_table.classList.add("d-none")
+      evening_table.classList.remove("d-none")
+      afternoon_button.classList.remove("active")
+      afternoon_button.classList.remove("text-danger")
+      evening_button.classList.add("active")
+      evening_button.classList.add("text-danger")
+    }
+  }
+
+
+
+
+
+</script>
+</html>
